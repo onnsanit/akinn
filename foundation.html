@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="The akinn brand foundation: the measured Bone/Ink pair, wordmark rules, and how the asset palette sits on bone.">
+<meta name="description" content="The akinn brand foundation: the measured Bone/Ink pair, the tree mark, wordmark rules, and how the asset palette sits on bone.">
 <title>Akinn Brand Foundation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,6 +105,18 @@
   .rules h3{font-family:var(--serif);font-weight:400;font-size:var(--step-1);margin:0 0 .4rem;line-height:1.25}
   .rules p{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.65}
 
+
+  /* ---------- the mark ---------- */
+
+  .markrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem}
+  .markcell{border:1px solid var(--rule);background:var(--card);padding:2rem 1rem;text-align:center}
+  .markcell svg{display:block;margin:0 auto}
+  .markcell .lw{font-family:var(--serif);font-size:1.7rem;line-height:1;display:block;margin-top:.9rem}
+  .markcell small{
+    display:block;margin-top:1.3rem;font-family:var(--mono);
+    font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  }
+
   table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
   th,td{text-align:left;padding:.6rem .9rem .6rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
   th{font-weight:600;white-space:nowrap}
@@ -205,6 +217,22 @@
         <div>
           <h3>With the tree</h3>
           <p>The tree diagram sits above, the wordmark below, gap equal to one stem height. The tree brings the colour; the wordmark stays ink. They never compete because they never share a register.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <p class="eyebrow">The mark</p>
+      <h2>One tree, drawn once</h2>
+      <p class="sub">The pictorial mark is the diagram at its smallest honest size: one stem, one fork, three holdings. It is fixed geometry &mdash; designed, not generated &mdash; so it is the same tree on every surface. Portfolio carries the crown, equity beside it, gold as the small bright one; the ink-only version is the same drawing for stamps, embossing and one-colour print.</p>
+      <div class="markrow">
+        <div class="markcell"><svg width="84" viewBox="14 14 92 92" role="img" aria-label="akinn tree mark"><path d="M60,100V66" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M60,74L48,62M60,74L72,62" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="61" cy="43" r="20" fill="#4FB3A3" stroke="var(--paper)" stroke-width="2"/><circle cx="39" cy="52" r="13" fill="#5FB873" stroke="var(--paper)" stroke-width="2"/><circle cx="84" cy="51" r="8.5" fill="#F5CE3E" stroke="var(--paper)" stroke-width="2"/></svg><small>Colour &mdash; primary</small></div>
+        <div class="markcell"><svg width="84" viewBox="14 14 92 92" role="img" aria-label="akinn tree mark"><path d="M60,100V66" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M60,74L48,62M60,74L72,62" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="61" cy="43" r="20" fill="currentColor" stroke="var(--paper)" stroke-width="2.5"/><circle cx="39" cy="52" r="13" fill="currentColor" stroke="var(--paper)" stroke-width="2.5"/><circle cx="84" cy="51" r="8.5" fill="currentColor" stroke="var(--paper)" stroke-width="2.5"/></svg><small>Ink only &mdash; one colour</small></div>
+        <div class="markcell"><svg width="64" viewBox="14 14 92 92" role="img" aria-label="akinn tree mark"><path d="M60,100V66" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M60,74L48,62M60,74L72,62" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="61" cy="43" r="20" fill="#4FB3A3" stroke="var(--paper)" stroke-width="2"/><circle cx="39" cy="52" r="13" fill="#5FB873" stroke="var(--paper)" stroke-width="2"/><circle cx="84" cy="51" r="8.5" fill="#F5CE3E" stroke="var(--paper)" stroke-width="2"/></svg><span class="lw">akinn</span><small>Stacked lockup</small></div>
+        <div class="markcell" style="display:flex;flex-direction:column;justify-content:center">
+          <div style="display:flex;align-items:center;justify-content:center;gap:.8rem"><svg width="44" viewBox="14 14 92 92" role="img" aria-label="akinn tree mark"><path d="M60,100V66" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M60,74L48,62M60,74L72,62" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/><circle cx="61" cy="43" r="20" fill="#4FB3A3" stroke="var(--paper)" stroke-width="2"/><circle cx="39" cy="52" r="13" fill="#5FB873" stroke="var(--paper)" stroke-width="2"/><circle cx="84" cy="51" r="8.5" fill="#F5CE3E" stroke="var(--paper)" stroke-width="2"/></svg><span class="lw" style="margin:0">akinn</span></div>
+          <small>Horizontal lockup</small>
         </div>
       </div>
     </section>

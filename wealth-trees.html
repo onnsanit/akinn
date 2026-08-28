@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Akinn's signature wealth-tree diagram, tuned: house asset-class palette with risk tiers, area-true sizing, seated canopies, and a Signature growth-ring mode.">
+<meta name="description" content="Akinn wealth-tree diagram: house asset-class palette with risk tiers, area-true sizing, tree-shaped canopies, Signature growth-ring mode.">
 <title>Akinn Wealth Trees</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,9 +268,9 @@
             if (Math.hypot(x - out[q].x, y - out[q].y) < (out[q].r + r) * 0.9){ ok = false; break; }
           }
           if (!ok) continue;
-          /* cluster round the crown: closeness to the largest disc, a mild
-             pull downward, and only a gentle centring so canopies spread */
-          var score = Math.hypot(x, y) + y * 0.45 + Math.abs(x) * 0.22;
+          /* a round cluster, slightly wider than tall — never a string
+             in either direction */
+          var score = Math.hypot(x, y) * 0.8 + Math.abs(y) * 0.75 + Math.abs(x) * 0.12;
           if (score < bestScore){ bestScore = score; best = { x: x, y: y, r: r, h: hs[i] }; }
         }
       }
@@ -287,16 +287,16 @@
     canopy.forEach(function(c){ lowest = Math.max(lowest, c.y + c.r); });
 
     /* stem height scales gently with canopy so big trees stand taller */
-    var stemH = 96 + maxR * 0.34;
+    var stemH = 46 + maxR * 0.85;
     var forkTopY = baseY - stemH;
-    var shift = forkTopY - lowest + Math.max(12, maxR * 0.5);   /* rest the canopy on the fork */
+    var shift = forkTopY - lowest + Math.max(16, maxR * 0.72);   /* rest the canopy on the fork */
 
     /* fork derived from canopy radius, fixed angle */
     var fl = Math.max(28, maxR * 0.72), ang = 32 * Math.PI / 180;
     var fx = Math.sin(ang) * fl, fy = Math.cos(ang) * fl;
 
     var s = '<g transform="translate(' + cx + ',0)">';
-    s += '<path d="M0,' + baseY + ' V' + forkTopY + '" stroke="var(--stem)" stroke-width="2.4" fill="none"/>';
+    s += '<path d="M0,' + baseY + ' V' + forkTopY + '" stroke="var(--stem)" stroke-width="3" fill="none"/>';
     s += '<path d="M0,' + (forkTopY + fy * 0.55) + ' L' + (-fx) + ',' + (forkTopY - fy * 0.45) + '" ' +
          'stroke="var(--stem)" stroke-width="1.7" fill="none" stroke-linecap="round"/>';
     s += '<path d="M0,' + (forkTopY + fy * 0.55) + ' L' + fx + ',' + (forkTopY - fy * 0.45) + '" ' +
@@ -397,7 +397,7 @@
       /* fixed stub fork, canopy floating, arbitrary overlap, no separation */
       var ft = baseY - 96;
       s += '<g transform="translate(' + cx + ',0)">';
-      s += '<path d="M0,' + baseY + ' V' + ft + '" stroke="var(--stem)" stroke-width="2.4" fill="none"/>';
+      s += '<path d="M0,' + baseY + ' V' + ft + '" stroke="var(--stem)" stroke-width="3" fill="none"/>';
       s += '<path d="M0,' + (ft + 12) + ' L-17,' + (ft - 6) + '" stroke="var(--stem)" stroke-width="1.7" fill="none"/>';
       s += '<path d="M0,' + (ft + 12) + ' L17,' + (ft - 6) + '" stroke="var(--stem)" stroke-width="1.7" fill="none"/>';
       var pos = [[-6,-52,24],[22,-40,17],[-26,-30,14],[8,-22,11]];
