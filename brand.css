@@ -1,0 +1,35 @@
+/* akinn — brand tokens
+   The pair is measured from the logo file, not approximated.
+   Both colours share a faint green-warm bias; never substitute
+   pure white or pure black — they read colder than the brand. */
+
+:root{
+  --akinn-bone: #F2F1EC;   /* ground */
+  --akinn-ink:  #161711;   /* type, stems, lines — contrast 15.9:1 on bone */
+
+  /* roles: dark mode swaps the pair; never invent a third neutral */
+  --akinn-ground: var(--akinn-bone);
+  --akinn-text:   var(--akinn-ink);
+
+  /* asset-class hues (tier 2 unless noted) — FILLS ONLY, never text.
+     Hue = asset class, shade = risk tier, darker = riskier. */
+  --akinn-equity:     #5FB873;
+  --akinn-fixed:      #5E93D2;
+  --akinn-gold:       #F5CE3E;   /* single colour, no ramp */
+  --akinn-commodity:  #B0854F;
+  --akinn-insurance:  #DE5E8F;
+  --akinn-realestate: #9B6BD1;
+  --akinn-ownership:  #F5923E;
+  --akinn-portfolio:  #4FB3A3;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --akinn-ground: var(--akinn-ink);
+    --akinn-text:   var(--akinn-bone);
+  }
+}
+:root[data-theme="dark"]{
+  --akinn-ground: var(--akinn-ink);
+  --akinn-text:   var(--akinn-bone);
+}

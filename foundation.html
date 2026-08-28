@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The akinn brand foundation: the measured Bone/Ink pair, wordmark rules, and how the asset palette sits on bone.">
+<title>Akinn Brand Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+
+<style>
+  :root{
+    --bone:#F2F1EC; --ink:#161711;
+    --paper:var(--bone); --text:var(--ink);
+    --muted:#6F6D63; --rule:#DBD9D0; --card:#F8F7F3;
+    --step--1:.8rem; --step-0:1rem; --step-1:1.2rem; --step-2:1.65rem;
+    --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --serif:"Bodoni Moda",Didot,"Times New Roman",serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:var(--ink); --text:var(--bone);
+      --muted:#8B897C; --rule:#2E2D26; --card:#1D1E17;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:var(--ink); --text:var(--bone);
+    --muted:#8B897C; --rule:#2E2D26; --card:#1D1E17;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--text);
+    font-family:var(--sans);font-size:var(--step-0);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+
+  /* ---------- hero ---------- */
+
+  .hero{
+    min-height:56svh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:clamp(3rem,8vh,5rem) 0 clamp(2rem,5vh,3rem);
+  }
+  .hero .wm{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(4rem,16vw,10rem);line-height:.95;letter-spacing:.005em;
+  }
+  .hero .sig{
+    margin-top:2.25rem;font-family:var(--mono);font-size:.72rem;
+    letter-spacing:.08em;color:var(--muted);
+    display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;
+  }
+  .hero .sig span b{font-weight:500;color:var(--text)}
+
+  section{padding:clamp(2.5rem,6vh,4rem) 0;border-top:1px solid var(--rule)}
+  h2{font-family:var(--serif);font-weight:400;font-size:var(--step-2);margin:0 0 .5rem;line-height:1.2}
+  .sub{margin:0 0 2rem;color:var(--muted);max-width:64ch;font-size:var(--step--1)}
+  .eyebrow{
+    font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 1.25rem;
+  }
+
+  /* ---------- the pair ---------- */
+
+  .pairgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+  @media (max-width:640px){.pairgrid{grid-template-columns:1fr}}
+  .chip{border:1px solid var(--rule)}
+  .chip .fill{height:150px}
+  .chip.bone .fill{background:var(--bone)}
+  .chip.inkc .fill{background:var(--ink)}
+  .chip dl{
+    margin:0;padding:1rem 1.15rem;display:grid;
+    grid-template-columns:auto 1fr;gap:.3rem 1.25rem;
+    font-size:var(--step--1);background:var(--card);
+  }
+  .chip dt{color:var(--muted)}
+  .chip dd{margin:0;font-family:var(--mono);font-size:.78rem}
+
+  .swaprow{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.25rem}
+  @media (max-width:640px){.swaprow{grid-template-columns:1fr}}
+  .swap{border:1px solid var(--rule);padding:2.75rem 1rem;text-align:center}
+  .swap .wm{font-family:var(--serif);font-size:2.6rem;line-height:1}
+  .swap.a{background:var(--bone);color:var(--ink)}
+  .swap.b{background:var(--ink);color:var(--bone)}
+  .swap small{
+    display:block;margin-top:1.4rem;font-family:var(--mono);
+    font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;opacity:.55;
+  }
+
+  /* ---------- palette on bone ---------- */
+
+  .onbone{border:1px solid var(--rule);background:var(--bone);color:var(--ink);padding:1.75rem}
+  .dots{display:flex;flex-wrap:wrap;gap:1.25rem;align-items:center}
+  .dot{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+  .dot i{width:44px;height:44px;border-radius:50%;display:block}
+  .dot span{font-family:var(--mono);font-size:.64rem;color:#6F6D63}
+
+  /* ---------- rules ---------- */
+
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+  .rules h3{font-family:var(--serif);font-weight:400;font-size:var(--step-1);margin:0 0 .4rem;line-height:1.25}
+  .rules p{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.65}
+
+  table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  th,td{text-align:left;padding:.6rem .9rem .6rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{font-weight:600;white-space:nowrap}
+  td{color:var(--muted)}
+  code{font-family:var(--mono);font-size:.92em;color:var(--text)}
+
+  pre{
+    margin:0;padding:1.15rem 1.25rem;overflow-x:auto;
+    background:var(--card);border:1px solid var(--rule);
+    font-family:var(--mono);font-size:.74rem;line-height:1.65;color:var(--text);
+  }
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;color:var(--muted);font-size:var(--step--1)}
+  footer p{margin:0 0 .8rem;max-width:66ch;line-height:1.7}
+  footer p:last-child{margin:0}
+</style>
+</head>
+<body>
+<main>
+
+  <div class="hero">
+    <div class="wm">akinn</div>
+    <div class="sig">
+      <span>ground <b>#F2F1EC</b></span>
+      <span>ink <b>#161711</b></span>
+      <span>contrast <b>15.9 : 1</b></span>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <section>
+      <p class="eyebrow">Foundation</p>
+      <h2>Two colours, one temperature</h2>
+      <p class="sub">Measured from your file, not approximated. Neither is neutral: the bone carries a faint green-warm bias and the ink carries the same one, which is why the pair feels calm instead of clinical &mdash; they agree about temperature. Never substitute pure white or pure black; both read colder than the brand.</p>
+
+      <div class="pairgrid">
+        <div class="chip bone">
+          <div class="fill"></div>
+          <dl>
+            <dt>Name</dt><dd>Bone</dd>
+            <dt>Hex</dt><dd>#F2F1EC</dd>
+            <dt>RGB</dt><dd>242 &middot; 241 &middot; 236</dd>
+            <dt>Role</dt><dd>the ground, everywhere</dd>
+          </dl>
+        </div>
+        <div class="chip inkc">
+          <div class="fill"></div>
+          <dl>
+            <dt>Name</dt><dd>Ink</dd>
+            <dt>Hex</dt><dd>#161711</dd>
+            <dt>RGB</dt><dd>22 &middot; 23 &middot; 17</dd>
+            <dt>Role</dt><dd>type, stems, lines</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="swaprow">
+        <div class="swap a"><span class="wm">akinn</span><small>Default &mdash; ink on bone</small></div>
+        <div class="swap b"><span class="wm">akinn</span><small>Dark &mdash; the same pair, swapped</small></div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Colour system</p>
+      <h2>The asset palette sits on bone</h2>
+      <p class="sub">The wealth-tree hues are mid-value on purpose, and bone flatters them: every tier reads clearly without any circle shouting. One rule keeps it accessible &mdash; these colours are <b>fills, never text</b>. On bone they land between 1.3:1 and 3.4:1, which is fine for a shape carrying a label and never fine for the label itself. Words are always Ink.</p>
+      <div class="onbone">
+        <div class="dots">
+          <div class="dot"><i style="background:#5FB873"></i><span>equity</span></div>
+          <div class="dot"><i style="background:#5E93D2"></i><span>fixed inc</span></div>
+          <div class="dot"><i style="background:#F5CE3E"></i><span>gold</span></div>
+          <div class="dot"><i style="background:#B0854F"></i><span>commodity</span></div>
+          <div class="dot"><i style="background:#DE5E8F"></i><span>insurance</span></div>
+          <div class="dot"><i style="background:#9B6BD1"></i><span>real estate</span></div>
+          <div class="dot"><i style="background:#F5923E"></i><span>ownership</span></div>
+          <div class="dot"><i style="background:#4FB3A3"></i><span>portfolio</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Wordmark</p>
+      <h2>Rules that keep it composed</h2>
+      <div class="rules">
+        <div>
+          <h3>Clear space</h3>
+          <p>Keep a margin of one <i>n</i>-width on every side of the wordmark. Nothing enters it &mdash; not the tree, not the tagline, not a photo edge.</p>
+        </div>
+        <div>
+          <h3>Minimum size</h3>
+          <p>The hairline serifs are the identity and they die first. Floor: 28&nbsp;px tall on screen, 8&nbsp;mm in print. Below that, use the ink dot from the <i>i</i> as a bug, or nothing.</p>
+        </div>
+        <div>
+          <h3>Two colourways only</h3>
+          <p>Ink on Bone, or Bone on Ink. The wordmark never takes an asset colour, never sits on a photograph without a bone panel behind it, and never gets a gradient.</p>
+        </div>
+        <div>
+          <h3>With the tree</h3>
+          <p>The tree diagram sits above, the wordmark below, gap equal to one stem height. The tree brings the colour; the wordmark stays ink. They never compete because they never share a register.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="eyebrow">Typeface</p>
+      <h2>Name the face before anything ships</h2>
+      <p class="sub">This page sets the wordmark in Bodoni Moda as a stand-in, and it is visibly not your logo: your face has softer, flared stems and warmer contrast &mdash; the family of Saol Display, Canela or Ogg (all commercial). If the logo came from a designer, ask them for the typeface name and licence; if it came from a generator, we should redraw the five letters as outlines so the mark is yours regardless of any font licence. Five letters is a small, worthwhile job.</p>
+      <table>
+        <tr><th>Have</th><td>A raster image of the wordmark. Enough to measure colour, not enough to reproduce cleanly at scale.</td></tr>
+        <tr><th>Need</th><td>The vector (SVG/PDF/AI) or the typeface name &mdash; either unlocks favicons, print, and the app icon without redrawing.</td></tr>
+        <tr><th>Free stand-ins</th><td><code>Bodoni Moda</code> (closest contrast) or <code>Fraunces</code> (closest warmth) &mdash; for mockups only, never for the shipped mark.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <p class="eyebrow">Tokens</p>
+      <h2>Committed as <code>brand.css</code></h2>
+      <pre>:root{
+  /* the pair — measured from the logo file */
+  --akinn-bone: #F2F1EC;
+  --akinn-ink:  #161711;
+
+  /* roles: swap the pair, never invent a third */
+  --akinn-ground: var(--akinn-bone);
+  --akinn-text:   var(--akinn-ink);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --akinn-ground: var(--akinn-ink);
+    --akinn-text:   var(--akinn-bone);
+  }
+}
+:root[data-theme="dark"]{
+  --akinn-ground: var(--akinn-ink);
+  --akinn-text:   var(--akinn-bone);
+}</pre>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="wrap">
+      <p><b>Already aligned.</b> The wealth-tree plate and the earlier specimen pages were tuned to this same bone family, so nothing built in this project needs recolouring &mdash; the logo's ground was, by convergence, already the system's ground.</p>
+      <p><b>Contrast.</b> Ink on Bone measures 15.9:1 &mdash; comfortably past every WCAG tier at every size, in both directions.</p>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>
