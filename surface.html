@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="akinn app surface pattern: three ornament dialects on one shared 40px lattice, at production contrast.">
+<title>Akinn Surface Pattern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap">
+
+<style>
+  :root{
+    --paper:#F4F3EF;
+    --ink:#16170F;
+    --muted:#6E7166;
+    --rule:#D9D9CF;
+    --card:#FCFCFA;
+    --accent:#8A5A2B;
+
+    --step--1:.8rem;
+    --step-0:1rem;
+    --step-1:1.2rem;
+    --step-2:1.6rem;
+
+    --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0E100C;
+      --ink:#E9E8DE;
+      --muted:#878A7D;
+      --rule:#272A21;
+      --card:#161911;
+      --accent:#D9A066;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0E100C;
+    --ink:#E9E8DE;
+    --muted:#878A7D;
+    --rule:#272A21;
+    --card:#161911;
+    --accent:#D9A066;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:var(--step-0);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+
+  header{padding:clamp(3rem,8vh,5.5rem) 0 clamp(1.5rem,4vh,2.5rem)}
+  h1{
+    font-family:var(--display);
+    font-variation-settings:"opsz" 120,"SOFT" 50,"WONK" 1;
+    font-weight:300;
+    font-size:clamp(2rem,5vw,3rem);
+    line-height:1.05;
+    margin:0 0 .75rem;
+    text-wrap:balance;
+  }
+  header p{margin:0;color:var(--muted);max-width:58ch}
+
+  .eyebrow{
+    font-size:var(--step--1);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 1.25rem;
+  }
+
+  section{padding:clamp(2.5rem,6vh,4rem) 0}
+  section + section{border-top:1px solid var(--rule)}
+
+  h2{
+    font-family:var(--display);
+    font-variation-settings:"opsz" 40,"SOFT" 40,"WONK" 0;
+    font-weight:400;
+    font-size:var(--step-2);
+    margin:0 0 .5rem;
+    line-height:1.2;
+  }
+  .sub{margin:0 0 2rem;color:var(--muted);max-width:60ch;font-size:var(--step--1)}
+
+  /* ---------- swatches ---------- */
+
+  .split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border:1px solid var(--rule);
+    overflow:hidden;
+  }
+  @media (max-width:640px){.split{grid-template-columns:1fr}}
+
+  .swatch{position:relative;aspect-ratio:1/.92;overflow:hidden}
+  .swatch svg{position:absolute;inset:0;width:100%;height:100%}
+  .swatch .tag{
+    position:absolute;left:.85rem;bottom:.7rem;
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;
+    text-transform:uppercase;opacity:.55;
+  }
+
+  .is-light{background:#FAFAF8;color:#14150F}
+  .is-light .tag{color:#14150F}
+  .is-dark{background:#0D1014;color:#E8EAEF}
+  .is-dark .tag{color:#E8EAEF}
+
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center;
+    margin-top:1.1rem;
+  }
+  button.link{
+    appearance:none;background:none;border:0;padding:.35rem .1rem;font:inherit;
+    font-size:var(--step--1);letter-spacing:.09em;text-transform:uppercase;
+    color:var(--ink);cursor:pointer;border-bottom:1px solid var(--rule);
+    transition:border-color .18s,color .18s;
+  }
+  button.link:hover{border-bottom-color:var(--accent);color:var(--accent)}
+  button.link[aria-pressed="true"]{border-bottom-color:var(--accent);color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+  .hint{font-size:var(--step--1);color:var(--muted)}
+
+  /* ---------- in situ ---------- */
+
+  .situ{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+  @media (max-width:760px){.situ{grid-template-columns:1fr}}
+
+  .device{position:relative;border:1px solid var(--rule);overflow:hidden;padding:1.5rem}
+  .device svg{position:absolute;inset:0;width:100%;height:100%}
+  .device .ui{position:relative}
+
+  .ui-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.1rem}
+  .ui-top b{font-family:var(--display);font-variation-settings:"opsz" 30;font-weight:400;font-size:1.15rem}
+  .ui-top span{font-family:var(--mono);font-size:.68rem;opacity:.5}
+  .row{
+    display:flex;justify-content:space-between;align-items:center;gap:1rem;
+    padding:.7rem .9rem;margin-bottom:.5rem;border-radius:3px;
+    font-size:.85rem;
+  }
+  .row em{font-style:normal;font-family:var(--mono);font-size:.72rem;opacity:.6}
+
+  .is-light .device-card{background:rgba(255,255,255,.72);border:1px solid rgba(20,21,15,.07)}
+  .is-dark .device-card{background:rgba(255,255,255,.045);border:1px solid rgba(232,234,239,.08)}
+
+  /* ---------- notes ---------- */
+
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:2rem}
+  .notes h3{
+    font-family:var(--display);font-variation-settings:"opsz" 30,"SOFT" 40;
+    font-weight:400;font-size:var(--step-1);margin:0 0 .4rem;line-height:1.25;
+  }
+  .notes p{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.65}
+
+  /* ---------- dialect key ---------- */
+
+  .key{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1.25rem}
+  .keycard{display:flex;flex-direction:column;gap:.6rem}
+  .keycard .box{aspect-ratio:1;border:1px solid var(--rule);position:relative;overflow:hidden;background:var(--card)}
+  .keycard .box svg{position:absolute;inset:0;width:100%;height:100%}
+  .keycard b{font-size:var(--step--1);font-weight:600}
+  .keycard span{font-size:.72rem;color:var(--muted);line-height:1.45}
+
+  /* ---------- code ---------- */
+
+  pre{
+    margin:0;padding:1.15rem 1.25rem;overflow-x:auto;
+    background:var(--card);border:1px solid var(--rule);
+    font-family:var(--mono);font-size:.74rem;line-height:1.65;
+    color:var(--ink);
+  }
+  .specs{
+    width:100%;border-collapse:collapse;margin-bottom:2rem;
+    font-size:var(--step--1);
+  }
+  .specs th,.specs td{text-align:left;padding:.55rem .8rem .55rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  .specs th{font-weight:600;color:var(--ink);white-space:nowrap}
+  .specs td{color:var(--muted)}
+  .specs td code{font-family:var(--mono);font-size:.92em;color:var(--ink)}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;color:var(--muted);font-size:var(--step--1)}
+  footer p{margin:0;max-width:62ch;line-height:1.7}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <p class="eyebrow">akinn &middot; surface</p>
+    <h1>Same whisper, three voices</h1>
+    <p>Your pattern at your contrast, with one change: the soft discs now mark where the ornament dialect shifts. Same 40&nbsp;px skeleton throughout, so nothing gets louder &mdash; but the field is no longer saying only one thing.</p>
+  </header>
+
+  <section>
+    <h2>At production contrast</h2>
+    <p class="sub">This is how it ships. You are not meant to notice the dialects; you are meant to feel that the surface has grain.</p>
+    <div class="split" id="split">
+      <div class="swatch is-light" data-pat="a"><span class="tag">Light</span></div>
+      <div class="swatch is-dark" data-pat="b"><span class="tag">Dark</span></div>
+    </div>
+    <div class="toolbar">
+      <button class="link" id="reveal" aria-pressed="false">Reveal the dialects</button>
+      <span class="hint">Turns the opacity up about eight times. Nothing else changes.</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Behind content</h2>
+    <p class="sub">The only test that matters for a surface: does text sit on it without effort.</p>
+    <div class="situ">
+      <div class="device is-light" data-pat="c">
+        <div class="ui">
+          <div class="ui-top"><b>Kin</b><span>04</span></div>
+          <div class="row device-card"><span>Amara Osei</span><em>sister</em></div>
+          <div class="row device-card"><span>Teodor Ilic</span><em>cousin</em></div>
+          <div class="row device-card"><span>Wanida Chen</span><em>aunt</em></div>
+          <div class="row device-card"><span>Halima Barre</span><em>cousin</em></div>
+        </div>
+      </div>
+      <div class="device is-dark" data-pat="d">
+        <div class="ui">
+          <div class="ui-top"><b>Kin</b><span>04</span></div>
+          <div class="row device-card"><span>Amara Osei</span><em>sister</em></div>
+          <div class="row device-card"><span>Teodor Ilic</span><em>cousin</em></div>
+          <div class="row device-card"><span>Wanida Chen</span><em>aunt</em></div>
+          <div class="row device-card"><span>Halima Barre</span><em>cousin</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The three dialects</h2>
+    <p class="sub">Shown loud so you can see them. Every one is built on the same 40&nbsp;px lattice as the base circle net &mdash; identical skeleton, different connective marks. All public domain, all recurring independently across several traditions.</p>
+    <div class="key" id="key"></div>
+  </section>
+
+  <section>
+    <h2>What changed, and why</h2>
+    <div class="notes">
+      <div>
+        <h3>Kept: the volume</h3>
+        <p>Your contrast was right and I did not touch it. A surface that competes with content is a failed surface, and the earlier marks I built were all logo-loud. This stays at a whisper.</p>
+      </div>
+      <div>
+        <h3>Added: something to be akin to</h3>
+        <p>One motif cannot express kinship &mdash; there is nothing for it to be related to. Three dialects on one shared lattice can. The skeleton is the family; the marks are the difference.</p>
+      </div>
+      <div>
+        <h3>Fixed: the blobs</h3>
+        <p>They were the only element with no rule behind them, which is why they read as a blur layer and went muddy in dark. Now they are zone boundaries. Same shape, same softness, but they finally do something.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The asset</h2>
+    <p class="sub">One tile, 480&nbsp;px, seamless in both axes. Nested patterns keep it small &mdash; the base net and each dialect are 40&nbsp;px sub-tiles, so the whole thing is well under 2&nbsp;KB before compression.</p>
+
+    <table class="specs">
+      <tr><th>Tile</th><td><code>480 &times; 480</code> &mdash; twelve lattice steps, so discs never land in the same relation twice within a screen</td></tr>
+      <tr><th>Lattice</th><td><code>40 px</code> pitch, circle radius <code>28.3</code> &mdash; every dialect shares it exactly</td></tr>
+      <tr><th>Colour</th><td><code>currentColor</code> throughout. Inline the SVG and it inherits your text colour, so one asset serves both themes and any brand recolour.</td></tr>
+      <tr><th>Opacity</th><td>net <code>.09</code>, disc tint <code>.04</code>, dialect <code>.10</code>, nodes <code>.20</code>. Drop each by about a fifth for dark.</td></tr>
+      <tr><th>Weight</th><td>Vector. No retina asset, no <code>@2x</code>, no dark-mode duplicate, no tinting workaround.</td></tr>
+    </table>
+
+    <pre id="code">Loading&hellip;</pre>
+  </section>
+
+  <footer>
+    <p><b>On provenance.</b> Circle net, seigaiha scales, stepped fret and star lattice are historical ornament in the public domain, each of which arose independently in several traditions &mdash; which is why the kinship reading holds rather than being a costume. Nothing here derives from any living artist's work, and no artist is named in its making.</p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var UID = 0;
+  var P = 40;                 /* lattice pitch, shared by every dialect */
+  var R = 28.3;               /* circle radius: P/sqrt(2), so neighbours interlock */
+  var T = 480;                /* tile: 12 lattice steps */
+
+  /* three soft zones, positioned to wrap across the tile seam */
+  var ZONES = [
+    { cx: 108, cy: 306, r: 150, dia: "scales" },
+    { cx: 392, cy: 118, r: 178, dia: "fret" },
+    { cx: 300, cy: 432, r: 104, dia: "star" }
+  ];
+
+  /* --- the dialects. one 40px sub-tile each, all on the same lattice --- */
+  var DIALECTS = {
+    net: {
+      label: "Circle net", sw: 1,
+      note: "The skeleton. Japanese shippo, Roman floor mosaic, Coptic textile.",
+      d: "M0," + 0 + "m" + (-R) + ",0a" + R + "," + R + " 0 1,0 " + (2 * R) + ",0a" + R + "," + R + " 0 1,0 " + (-2 * R) + ",0" +
+         "M" + P + ",0m" + (-R) + ",0a" + R + "," + R + " 0 1,0 " + (2 * R) + ",0a" + R + "," + R + " 0 1,0 " + (-2 * R) + ",0" +
+         "M0," + P + "m" + (-R) + ",0a" + R + "," + R + " 0 1,0 " + (2 * R) + ",0a" + R + "," + R + " 0 1,0 " + (-2 * R) + ",0" +
+         "M" + P + "," + P + "m" + (-R) + ",0a" + R + "," + R + " 0 1,0 " + (2 * R) + ",0a" + R + "," + R + " 0 1,0 " + (-2 * R) + ",0"
+    },
+    scales: {
+      label: "Scales", sw: 1.35,
+      note: "Seigaiha. Also Roman imbrication and Persian tilework.",
+      d: "M0," + P + "A" + (P / 2) + "," + (P / 2) + " 0 0,1 " + P + "," + P +
+         "M" + (-P / 2) + "," + (P / 2) + "A" + (P / 2) + "," + (P / 2) + " 0 0,1 " + (P / 2) + "," + (P / 2) +
+         "M" + (P / 2) + "," + (P / 2) + "A" + (P / 2) + "," + (P / 2) + " 0 0,1 " + (P * 1.5) + "," + (P / 2)
+    },
+    fret: {
+      label: "Stepped fret", sw: 1.2,
+      note: "The meander family. Greek key, Andean stepped fret, Chinese thunder.",
+      d: "M0," + P + "H" + (P * 0.25) + "V" + (P * 0.25) + "H" + (P * 0.75) + "V" + P + "H" + P
+    },
+    star: {
+      label: "Star lattice", sw: .8,
+      note: "Crossed diagonals. Islamic girih, Mudejar tile, Germanic hex sign.",
+      d: "M0,0L" + P + "," + P + "M" + P + ",0L0," + P +
+         "M" + (P * 0.5) + "," + (P * 0.16) + "L" + (P * 0.84) + "," + (P * 0.5) +
+         "L" + (P * 0.5) + "," + (P * 0.84) + "L" + (P * 0.16) + "," + (P * 0.5) + "Z"
+    }
+  };
+
+  function subTile(id, key){
+    return '<pattern id="' + id + '" width="' + P + '" height="' + P + '" patternUnits="userSpaceOnUse">' +
+             '<path d="' + DIALECTS[key].d + '" fill="none" stroke="currentColor" stroke-width="' +
+               DIALECTS[key].sw + '"/>' +
+           '</pattern>';
+  }
+
+  /* nine copies so a zone that runs off one edge returns on the other */
+  function wrapped(z, attrs){
+    var out = "";
+    for (var i = -1; i <= 1; i++){
+      for (var j = -1; j <= 1; j++){
+        out += '<circle cx="' + (z.cx + i * T) + '" cy="' + (z.cy + j * T) + '" r="' + z.r + '" ' + attrs + '/>';
+      }
+    }
+    return out;
+  }
+
+  /* No viewBox: user units stay CSS pixels, so the tile repeats at a fixed
+     480px instead of being scaled to fit the element. */
+  function field(){
+    var u = "s" + (UID++);
+    var defs = subTile(u + "net", "net");
+    var zones = "";
+
+    ZONES.forEach(function(z, i){
+      defs += subTile(u + "d" + i, z.dia);
+      defs += '<clipPath id="' + u + 'z' + i + '">' + wrapped(z, "") + '</clipPath>';
+    });
+
+    /* lattice nodes: a sparse regular rhythm, not scattered dots */
+    var nodes = "";
+    for (var i = 0; i <= T / P; i++){
+      for (var j = 0; j <= T / P; j++){
+        if ((i * 2 + j * 3) % 7 === 0){
+          nodes += '<circle cx="' + (i * P) + '" cy="' + (j * P) + '" r="1.7"/>';
+        }
+      }
+    }
+
+    ZONES.forEach(function(z, i){
+      zones += '<g style="opacity:var(--o-disc)">' + wrapped(z, 'fill="currentColor"') + '</g>' +
+               '<g clip-path="url(#' + u + 'z' + i + ')" style="opacity:var(--o-dia)">' +
+                 '<rect width="' + T + '" height="' + T + '" fill="url(#' + u + 'd' + i + ')"/>' +
+               '</g>';
+    });
+
+    defs += '<pattern id="' + u + 'tile" width="' + T + '" height="' + T + '" patternUnits="userSpaceOnUse">' +
+              '<g style="opacity:var(--o-net)"><rect width="' + T + '" height="' + T + '" fill="url(#' + u + 'net)"/></g>' +
+              zones +
+              '<g fill="currentColor" style="opacity:var(--o-node)">' + nodes + '</g>' +
+            '</pattern>';
+
+    return '<svg aria-hidden="true" width="100%" height="100%">' +
+             '<defs>' + defs + '</defs>' +
+             '<rect width="100%" height="100%" fill="url(#' + u + 'tile)"/>' +
+           '</svg>';
+  }
+
+  document.querySelectorAll("[data-pat]").forEach(function(el){
+    el.insertAdjacentHTML("afterbegin", field());
+  });
+
+  /* reveal toggle */
+  var btn = document.getElementById("reveal");
+  btn.addEventListener("click", function(){
+    var on = btn.getAttribute("aria-pressed") === "true";
+    btn.setAttribute("aria-pressed", on ? "false" : "true");
+    document.getElementById("split").classList.toggle("reveal", !on);
+    btn.textContent = on ? "Reveal the dialects" : "Back to production";
+  });
+
+  /* dialect key, drawn loud */
+  document.getElementById("key").innerHTML = Object.keys(DIALECTS).map(function(k){
+    var d = DIALECTS[k], id = "key" + k;
+    return '<div class="keycard"><div class="box">' +
+      '<svg aria-hidden="true" viewBox="0 0 120 120">' +
+        '<defs><pattern id="' + id + '" width="' + P + '" height="' + P + '" patternUnits="userSpaceOnUse">' +
+          '<path d="' + d.d + '" fill="none" stroke="currentColor" stroke-width="' + d.sw + '" opacity=".55"/>' +
+        '</pattern></defs>' +
+        '<rect width="120" height="120" fill="url(#' + id + ')"/>' +
+      '</svg></div>' +
+      '<b>' + d.label + '</b><span>' + d.note + '</span></div>';
+  }).join("");
+
+  /* the shipping snippet */
+  var snippet =
+'<!-- one tile, both themes: currentColor does the theming -->\n' +
+'<svg class="kin-surface" aria-hidden="true"\n' +
+'     preserveAspectRatio="xMidYMid slice" viewBox="0 0 480 480">\n' +
+'  <defs>\n' +
+'    <pattern id="net" width="40" height="40" patternUnits="userSpaceOnUse">\n' +
+'      <path d="' + DIALECTS.net.d + '"\n' +
+'            fill="none" stroke="currentColor" stroke-width="1"/>\n' +
+'    </pattern>\n' +
+'    <!-- one 40px sub-tile per dialect, same lattice pitch -->\n' +
+Object.keys(DIALECTS).filter(function(k){ return k !== "net"; }).map(function(k){
+  return '    <pattern id="' + k + '" width="40" height="40" patternUnits="userSpaceOnUse">\n' +
+         '      <path d="' + DIALECTS[k].d + '"\n' +
+         '            fill="none" stroke="currentColor" stroke-width="1.4"/>\n' +
+         '    </pattern>\n';
+}).join("") +
+'    <!-- each zone drawn 9x so it wraps across the seam -->\n' +
+'  </defs>\n' +
+'  <rect width="480" height="480" fill="url(#tile)"/>\n' +
+'</svg>\n\n' +
+'.kin-surface{\n' +
+'  position:absolute; inset:0; width:100%; height:100%;\n' +
+'  color:var(--ink);                 /* recolours the whole surface */\n' +
+'  --o-net:.09; --o-disc:.04; --o-dia:.10; --o-node:.20;\n' +
+'  pointer-events:none;\n' +
+'}\n' +
+'@media (prefers-color-scheme:dark){\n' +
+'  .kin-surface{ --o-net:.07; --o-disc:.03; --o-dia:.08; --o-node:.16; }\n' +
+'}';
+
+  document.getElementById("code").textContent = snippet;
+})();
+</script>
+
+<style>
+  /* opacity contract: the whole pattern is driven by four numbers */
+  .swatch svg,.device svg{
+    --o-net:.09; --o-disc:.04; --o-dia:.10; --o-node:.20;
+  }
+  .is-dark svg{
+    --o-net:.075; --o-disc:.032; --o-dia:.085; --o-node:.17;
+  }
+  .reveal .swatch svg{
+    --o-net:.42; --o-disc:.14; --o-dia:.62; --o-node:.8;
+    transition:none;
+  }
+  .swatch svg{transition:opacity .2s}
+</style>
+</body>
+</html>
