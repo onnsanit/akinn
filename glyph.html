@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="The akinn glyph at two densities: signature and surface, and why the glyph is the right seed for the identity.">
+<title>Signature Or Surface</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap">
+
+<style>
+  :root{
+    --paper:#F4F3EF; --ink:#16170F; --muted:#6E7166;
+    --rule:#D9D9CF; --card:#FCFCFA; --accent:#2F5C86;
+    --step--1:.8rem; --step-0:1rem; --step-1:1.2rem; --step-2:1.6rem;
+    --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0E100C; --ink:#E9E8DE; --muted:#878A7D;
+      --rule:#272A21; --card:#161911; --accent:#8FB6DA;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0E100C; --ink:#E9E8DE; --muted:#878A7D;
+    --rule:#272A21; --card:#161911; --accent:#8FB6DA;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:var(--step-0);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+
+  header{padding:clamp(3rem,8vh,5.5rem) 0 clamp(1.5rem,4vh,2.5rem)}
+  h1{
+    font-family:var(--display);font-variation-settings:"opsz" 120,"SOFT" 50,"WONK" 1;
+    font-weight:300;font-size:clamp(2rem,5vw,3rem);line-height:1.05;
+    margin:0 0 .75rem;text-wrap:balance;
+  }
+  header p{margin:0;color:var(--muted);max-width:60ch}
+  .eyebrow{
+    font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 1.25rem;
+  }
+
+  section{padding:clamp(2.5rem,6vh,4rem) 0}
+  section + section{border-top:1px solid var(--rule)}
+  h2{
+    font-family:var(--display);font-variation-settings:"opsz" 40,"SOFT" 40,"WONK" 0;
+    font-weight:400;font-size:var(--step-2);margin:0 0 .5rem;line-height:1.2;
+  }
+  .sub{margin:0 0 2rem;color:var(--muted);max-width:62ch;font-size:var(--step--1)}
+
+  /* ---------- comparison panels ---------- */
+
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+  @media (max-width:760px){.pair{grid-template-columns:1fr}}
+
+  .panel{display:flex;flex-direction:column;gap:.85rem}
+  .stageBox{
+    position:relative;aspect-ratio:3/4;overflow:hidden;
+    border:1px solid var(--rule);background:#10263F;
+  }
+  .stageBox.pale{background:#F1F0EA}
+  .stageBox svg{position:absolute;inset:0;width:100%;height:100%}
+
+  .overlay{position:relative;padding:1.35rem;height:100%;display:flex;flex-direction:column}
+  .ov-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.2rem}
+  .ov-top b{font-family:var(--display);font-variation-settings:"opsz" 30;font-weight:400;font-size:1.2rem}
+  .ov-top i{font-style:normal;font-family:var(--mono);font-size:.66rem;opacity:.55}
+  .ov-body{font-size:.83rem;line-height:1.6;max-width:34ch}
+  .ov-rows{margin-top:auto;display:flex;flex-direction:column;gap:.4rem}
+  .ov-row{
+    display:flex;justify-content:space-between;gap:1rem;
+    padding:.6rem .8rem;border-radius:3px;font-size:.8rem;
+  }
+  .ov-row em{font-style:normal;font-family:var(--mono);font-size:.68rem;opacity:.6}
+
+  .dark-ui{color:#E8ECF2}
+  .dark-ui .ov-row{background:rgba(255,255,255,.055);border:1px solid rgba(232,236,242,.09)}
+  .light-ui{color:#16170F}
+  .light-ui .ov-row{background:rgba(255,255,255,.66);border:1px solid rgba(22,23,15,.08)}
+
+  .caption b{display:block;font-size:var(--step--1);letter-spacing:.02em}
+  .caption span{font-size:.74rem;color:var(--muted);line-height:1.5;display:block;margin-top:.15rem}
+  .caption .verdict{
+    display:inline-block;margin-top:0;font-family:var(--mono);font-size:.64rem;
+    letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;
+    border:1px solid currentColor;margin-bottom:.45rem;
+  }
+  .bad{color:#B4553C}
+  .good{color:#4A7A52}
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]) .bad{color:#E08A6E}
+    :root:not([data-theme="light"]) .good{color:#8FC098}
+  }
+  :root[data-theme="dark"] .bad{color:#E08A6E}
+  :root[data-theme="dark"] .good{color:#8FC098}
+
+  /* ---------- anatomy ---------- */
+
+  .anatomy{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,20rem);
+    gap:clamp(1.5rem,4vw,3.5rem);align-items:center;
+  }
+  @media (max-width:820px){.anatomy{grid-template-columns:1fr}}
+  .anatomy .box{background:#10263F;border:1px solid var(--rule);aspect-ratio:1}
+  .anatomy .box svg{width:100%;height:100%;display:block}
+  .anatomy dl{margin:0;display:flex;flex-direction:column;gap:1.15rem}
+  .anatomy dt{font-weight:600;font-size:var(--step--1);margin-bottom:.15rem}
+  .anatomy dd{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.6}
+  .sw{display:inline-block;width:.7em;height:.7em;margin-right:.4em;vertical-align:baseline;border-radius:1px}
+
+  /* ---------- notes ---------- */
+
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem}
+  .notes h3{
+    font-family:var(--display);font-variation-settings:"opsz" 30,"SOFT" 40;
+    font-weight:400;font-size:var(--step-1);margin:0 0 .4rem;line-height:1.25;
+  }
+  .notes p{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.65}
+
+  .specs{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  .specs th,.specs td{text-align:left;padding:.55rem .9rem .55rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  .specs th{font-weight:600;white-space:nowrap}
+  .specs td{color:var(--muted)}
+  .specs code{font-family:var(--mono);font-size:.92em;color:var(--ink)}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;color:var(--muted);font-size:var(--step--1)}
+  footer p{margin:0;max-width:64ch;line-height:1.7}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <p class="eyebrow">akinn &middot; the glyph</p>
+    <h1>A signature, not a surface</h1>
+    <p>The motif is the strongest thing in this project so far. But at the density you have it, it places illustration rather than laying texture &mdash; and behind content that is a problem you can see. Same glyph, two jobs, below.</p>
+  </header>
+
+  <section>
+    <h2>The same motif at two densities</h2>
+    <p class="sub">Identical glyph, identical palette. Only scale, spacing and contrast differ. Both panels carry the same interface on top.</p>
+
+    <div class="pair">
+      <div class="panel">
+        <div class="stageBox" data-field="signature">
+          <div class="overlay dark-ui">
+            <div class="ov-top"><b>Kin</b><i>04</i></div>
+            <p class="ov-body">Four people share this thread. Two of them have never met each other.</p>
+            <div class="ov-rows">
+              <div class="ov-row"><span>Amara Osei</span><em>sister</em></div>
+              <div class="ov-row"><span>Teodor Ilic</span><em>cousin</em></div>
+              <div class="ov-row"><span>Wanida Chen</span><em>aunt</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="verdict bad">Breaks down</span>
+          <b>As you have it</b>
+          <span>Glyphs land under text at random. One card gets a line through it, the next gets nothing &mdash; and the bone accent is the brightest thing on screen, pulling the eye off the interface.</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="stageBox" data-field="surface">
+          <div class="overlay dark-ui">
+            <div class="ov-top"><b>Kin</b><i>04</i></div>
+            <p class="ov-body">Four people share this thread. Two of them have never met each other.</p>
+            <div class="ov-rows">
+              <div class="ov-row"><span>Amara Osei</span><em>sister</em></div>
+              <div class="ov-row"><span>Teodor Ilic</span><em>cousin</em></div>
+              <div class="ov-row"><span>Wanida Chen</span><em>aunt</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <span class="verdict good">Works</span>
+          <b>Retuned as a surface</b>
+          <span>Glyph at 44&nbsp;%, spacing halved, contrast down to about a fifth, accent dimmed to match its neighbours. Now it is grain: even everywhere, no hot spots, nothing competing.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where the loud version belongs</h2>
+    <p class="sub">Nothing is wrong with the density you chose &mdash; it is just answering a different brief. Give it the places that have no content to fight with, and it is the best asset in the set.</p>
+    <div class="pair">
+      <div class="panel">
+        <div class="stageBox" data-field="signature">
+          <div class="overlay dark-ui" style="justify-content:center;align-items:center;text-align:center">
+            <div style="max-width:22ch">
+              <div style="font-family:var(--display);font-variation-settings:'opsz' 90;font-weight:300;font-size:2.1rem;line-height:1.1">akinn</div>
+              <p style="font-size:.82rem;opacity:.7;margin:.6rem 0 0">Nobody here has met everybody here.</p>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <b>Splash, empty states, share cards</b>
+          <span>Sparse placement reads as confident when there is space around it. Also: App Store screenshots, onboarding, card backs, the marketing site hero.</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="stageBox pale" data-field="surface-light">
+          <div class="overlay light-ui">
+            <div class="ov-top"><b>Kin</b><i>04</i></div>
+            <p class="ov-body">The surface carries to light theme without a second asset &mdash; same geometry, three swapped colours.</p>
+            <div class="ov-rows">
+              <div class="ov-row"><span>Halima Barre</span><em>cousin</em></div>
+              <div class="ov-row"><span>Jonas Reier</span><em>uncle</em></div>
+              <div class="ov-row"><span>Priya Raman</span><em>sister</em></div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <b>Light theme, same tile</b>
+          <span>Navy is a committed ground, so the light version drops it: bone paper, and the line colours darkened to hold the same weight.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why this glyph is the right seed</h2>
+    <p class="sub">Drawn large, the argument is visible. This is a better foundation than either mark I built earlier, and I would rebuild the identity from it.</p>
+    <div class="anatomy">
+      <div class="box" data-field="anatomy"></div>
+      <dl>
+        <div>
+          <dt><span class="sw" style="background:#7E9CBB"></span>Two forms, not one</dt>
+          <dd>The same open rounded square, twice, turned and offset. Congruent but never aligned &mdash; alike, not identical. One motif can only be decorative; two can be related.</dd>
+        </div>
+        <div>
+          <dt><span class="sw" style="background:#93A98D"></span>Different voices</dt>
+          <dd>Each form takes its own colour off one restrained wheel. Slate and sage are neighbours, not opposites.</dd>
+        </div>
+        <div>
+          <dt><span class="sw" style="background:#E4E2D8"></span>The join is marked</dt>
+          <dd>The bone bar sits exactly where the two forms cross. It is the only light value in the system, and it appears nowhere else &mdash; so the brightest thing in the brand is always the point of contact.</dd>
+        </div>
+        <div>
+          <dt>Open ends</dt>
+          <dd>Every line overshoots its corner and simply stops. Nothing is a closed container, so nothing encloses or excludes. That is also what stops it reading as a logo in a box.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section>
+    <h2>What I would do next</h2>
+    <div class="notes">
+      <div>
+        <h3>Keep both tiles</h3>
+        <p>Surface for anything behind content. Signature for splash, empty states, share cards and marketing. One glyph, two volumes &mdash; which is the system I said was missing last time.</p>
+      </div>
+      <div>
+        <h3>Rebuild the mark from this</h3>
+        <p>A single glyph at large scale, cropped close, is already an excellent logo: two related forms and a marked join. Far better than the disc clusters. The earlier work becomes reference, not foundation.</p>
+      </div>
+      <div>
+        <h3>Watch the accent</h3>
+        <p>The bone bar is the one element that can wreck the surface. Rule: full strength in the signature and the mark, dimmed to its neighbours everywhere content sits on top. Never two bright joins in one viewport.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Numbers</h2>
+    <table class="specs">
+      <tr><th>Signature tile</th><td><code>560 &times; 560</code>, glyph at 100&nbsp;%, four placements, each rotated differently. Seamless both axes.</td></tr>
+      <tr><th>Surface tile</th><td><code>246 &times; 246</code>, glyph at 44&nbsp;%, same four rotations. Seamless both axes.</td></tr>
+      <tr><th>Line weight</th><td><code>2.2</code> signature, <code>1.5</code> surface &mdash; scaled by less than the glyph, so thin lines survive the reduction.</td></tr>
+      <tr><th>Contrast</th><td>Signature at full colour. Surface at <code>.22</code> opacity, accent at <code>.30</code> instead of <code>1</code>.</td></tr>
+      <tr><th>Palette</th><td>Ground <code>#10263F</code> &middot; slate <code>#7E9CBB</code> &middot; sage <code>#93A98D</code> &middot; bone <code>#E4E2D8</code>. Light theme: paper <code>#F1F0EA</code>, lines darkened to <code>#4A6684</code> and <code>#5E7358</code>.</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    <p>Every placement is drawn nine times so glyphs that run off one edge return on the other &mdash; both tiles repeat cleanly in both axes with no visible seam. All geometry is vector and recolours from four variables, so neither tile needs a raster export, a retina variant or a dark-mode duplicate.</p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var UID = 0;
+
+  /* ---------- the glyph ----------
+     One open rounded square whose sides overshoot their corners and stop.
+     Drawn twice, turned and offset, with a bar marking where they cross. */
+
+  function openSquare(half, r, tailA, tailB){
+    var a = -half, b = half;
+    return "M" + (a - tailA) + "," + a +
+           "H" + (b - r) +
+           "A" + r + "," + r + " 0 0 1 " + b + "," + (a + r) +
+           "V" + (b - r) +
+           "A" + r + "," + r + " 0 0 1 " + (b - r) + "," + b +
+           "H" + (a + r) +
+           "A" + r + "," + r + " 0 0 1 " + a + "," + (b - r) +
+           "V" + (a - tailB);
+  }
+
+  var FORM_A = openSquare(46, 22, 78, 44);
+  var FORM_B = openSquare(46, 22, 62, 52);
+
+  /* colour roles, so one glyph serves every context */
+  var C = {
+    dark:  { slate: "#7E9CBB", sage: "#93A98D", bone: "#E4E2D8" },
+    light: { slate: "#4A6684", sage: "#5E7358", bone: "#8C8A7C" }
+  };
+
+  function glyph(scale, sw, pal, dim, accentDim){
+    var g = C[pal];
+    return '<g transform="scale(' + scale + ')" fill="none" ' +
+             'stroke-linecap="round" stroke-width="' + (sw / scale) + '" opacity="' + dim + '">' +
+             '<path d="' + FORM_A + '" stroke="' + g.slate + '" transform="rotate(-14)"/>' +
+             '<path d="' + FORM_B + '" stroke="' + g.sage + '" transform="translate(16,20) rotate(168)"/>' +
+             '<path d="M-70,52 L74,-46" stroke="' + g.slate + '" opacity=".7"/>' +
+           '</g>' +
+           '<g transform="scale(' + scale + ')" fill="none" stroke-linecap="butt" ' +
+             'stroke-width="' + (sw * 1.05 / scale) + '" opacity="' + accentDim + '">' +
+             '<path d="M-13,3 L20,3" stroke="' + g.bone + '"/>' +
+           '</g>';
+  }
+
+  /* four placements per tile, each turned differently: family, not clones */
+  var PLACE = [
+    { x: .24, y: .20, rot:   0 },
+    { x: .74, y: .38, rot:  62 },
+    { x: .38, y: .70, rot: 145 },
+    { x: .86, y: .86, rot: 232 }
+  ];
+
+  function tileField(T, scale, sw, pal, dim, accentDim){
+    var u = "g" + (UID++);
+    var body = "";
+    PLACE.forEach(function(p){
+      var inner = glyph(scale, sw, pal, dim, accentDim);
+      /* nine copies so a glyph leaving one edge returns on the opposite one */
+      for (var i = -1; i <= 1; i++){
+        for (var j = -1; j <= 1; j++){
+          body += '<g transform="translate(' + (p.x * T + i * T) + ',' + (p.y * T + j * T) +
+                  ') rotate(' + p.rot + ')">' + inner + '</g>';
+        }
+      }
+    });
+
+    return '<svg aria-hidden="true" width="100%" height="100%">' +
+             '<defs><pattern id="' + u + '" width="' + T + '" height="' + T +
+               '" patternUnits="userSpaceOnUse">' + body + '</pattern></defs>' +
+             '<rect width="100%" height="100%" fill="url(#' + u + ')"/>' +
+           '</svg>';
+  }
+
+  var FIELDS = {
+    signature:       function(){ return tileField(560, 1,    2.2, "dark",  1,   1   ); },
+    surface:         function(){ return tileField(246, 0.44, 1.5, "dark",  .22, .30 ); },
+    "surface-light": function(){ return tileField(246, 0.44, 1.5, "light", .26, .34 ); }
+  };
+
+  document.querySelectorAll("[data-field]").forEach(function(el){
+    var k = el.getAttribute("data-field");
+    if (k === "anatomy"){
+      el.innerHTML =
+        '<svg viewBox="-150 -150 300 300" role="img" aria-label="The akinn glyph, drawn large">' +
+          glyph(1, 2.6, "dark", 1, 1) +
+        '</svg>';
+      return;
+    }
+    el.insertAdjacentHTML("afterbegin", FIELDS[k]());
+  });
+})();
+</script>
+</body>
+</html>
