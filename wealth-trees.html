@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Akinn wealth-tree diagram: house asset-class palette with risk tiers, area-true sizing, tree-shaped canopies, Signature growth-ring mode.">
+<meta name="description" content="Akinn wealth trees, charm first: big soft canopies at full colour, outline house, with area-true sizing running quietly underneath.">
 <title>Akinn Wealth Trees</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,8 +118,8 @@
 
   <header>
     <p class="eyebrow">akinn &middot; wealth trees</p>
-    <h1>The same diagram, tuned</h1>
-    <p>The device is right and I would not change it: a stem, a canopy of asset-class circles, a timeline underneath. What follows keeps all of that and fixes the things that were costing it &mdash; three of which are accuracy problems rather than taste, because this is a data graphic and not an illustration.</p>
+    <h1>Your trees, kept cute</h1>
+    <p>Big soft canopies, colour at full voice, thin confident stems, the outline house &mdash; the charm leads. The quiet fixes (area&#8209;true sizing, overlaps that read as depth) still run underneath, where nobody has to think about them.</p>
   </header>
 
   <section>
@@ -145,7 +145,7 @@
 
   <section>
     <h2>The palette, used as designed</h2>
-    <p class="sub">Your system already carries hierarchy in its tiers &mdash; hue is the asset class, shade is risk, darker is riskier. The original spent every circle at full strength, which throws that away and makes six loud hues compete. Here the bulk sits in tiers&nbsp;1&ndash;2 and the darker tiers are reserved for positions that genuinely are riskier, so the picture is calmer <em>and</em> more truthful at the same time.</p>
+    <p class="sub">Hue is the asset class; the risk tiers stay in the toolbox for reports that need them. On the hero, colour runs at full voice &mdash; the picture never goes grey to prove a point.</p>
     <div class="legend" id="legend"></div>
   </section>
 
@@ -202,23 +202,23 @@
   /* ---------- data: one household across five periods ---------- */
   var TREES = [
     { year: "2015", holdings: [
-      { cls: "fixed", tier: 1, v: 18 }, { cls: "equity", tier: 2, v: 12 }
+      { cls: "fixed", tier: 1, v: 30 }
     ]},
     { year: "2019", holdings: [
       { cls: "equity", tier: 2, v: 42 }, { cls: "fixed", tier: 1, v: 24 },
       { cls: "gold", tier: 1, v: 8 }
     ]},
     { year: "2023", holdings: [
-      { cls: "equity", tier: 2, v: 78 }, { cls: "ownership", tier: 4, v: 46 },
+      { cls: "equity", tier: 2, v: 84 }, { cls: "ownership", tier: 4, v: 46 },
       { cls: "fixed", tier: 1, v: 30 }, { cls: "gold", tier: 1, v: 11 }
     ]},
     { year: "2027", holdings: [
-      { cls: "portfolio", tier: 2, v: 104 }, { cls: "ownership", tier: 3, v: 58 },
+      { cls: "portfolio", tier: 3, v: 104 }, { cls: "ownership", tier: 3, v: 58 },
       { cls: "realestate", tier: 2, v: 40 }, { cls: "fixed", tier: 2, v: 26 },
       { cls: "insurance", tier: 1, v: 15 }, { cls: "gold", tier: 1, v: 12 }
     ]},
     { year: "2031", holdings: [
-      { cls: "portfolio", tier: 1, v: 168 }, { cls: "realestate", tier: 2, v: 66 },
+      { cls: "portfolio", tier: 2, v: 168 }, { cls: "realestate", tier: 2, v: 66 },
       { cls: "ownership", tier: 2, v: 52 }, { cls: "fixed", tier: 1, v: 44 },
       { cls: "insurance", tier: 1, v: 22 }, { cls: "gold", tier: 1, v: 14 },
       { cls: "commodity", tier: 1, v: 12 }
@@ -244,8 +244,31 @@
     return s;
   }
 
-  var K = 3.05;                       /* area-proportional: r = K * sqrt(value) */
+  var K = 4.35;                       /* area-proportional: r = K * sqrt(value) */
   function radius(v){ return K * Math.sqrt(v); }
+
+  /* soft hand-drawn blob: 8 anchors with a whisper of jitter, closed
+     with midpoint quadratics so it stays smooth */
+  function blobPath(cx, cy, r, seed){
+    var s = (seed * 2654435761) >>> 0;
+    function rnd(){ s = (s + 0x6D2B79F5) | 0;
+      var t = Math.imul(s ^ (s >>> 15), 1 | s);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+    var n = 8, pts = [];
+    for (var i = 0; i < n; i++){
+      var a = (i / n) * Math.PI * 2 + rnd() * 0.2;
+      var rr = r * (0.93 + rnd() * 0.13);
+      pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]);
+    }
+    var d2 = "M" + ((pts[0][0]+pts[1][0])/2).toFixed(1) + "," + ((pts[0][1]+pts[1][1])/2).toFixed(1);
+    for (var i = 1; i <= n; i++){
+      var p = pts[i % n], q = pts[(i + 1) % n];
+      d2 += "Q" + p[0].toFixed(1) + "," + p[1].toFixed(1) + " " +
+            ((p[0]+q[0])/2).toFixed(1) + "," + ((p[1]+q[1])/2).toFixed(1);
+    }
+    return d2 + "Z";
+  }
 
   /* ---------- canopy packing ----------
      Largest holding on the stem axis; the rest attach outward with a fixed
@@ -287,7 +310,7 @@
     canopy.forEach(function(c){ lowest = Math.max(lowest, c.y + c.r); });
 
     /* stem height scales gently with canopy so big trees stand taller */
-    var stemH = 46 + maxR * 0.85;
+    var stemH = 40 + maxR * 0.62;
     var forkTopY = baseY - stemH;
     var shift = forkTopY - lowest + Math.max(16, maxR * 0.72);   /* rest the canopy on the fork */
 
@@ -303,11 +326,12 @@
          'stroke="var(--stem)" stroke-width="1.7" fill="none" stroke-linecap="round"/>';
 
     /* largest first so smaller discs read as sitting in front */
-    canopy.forEach(function(c){
+    canopy.forEach(function(c, ci){
       var cy = c.y + shift;
-      s += '<circle cx="' + c.x.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + c.r.toFixed(1) +
+      var seed = Math.abs(Math.round(cx * 7 + c.x * 13 + c.y * 31 + c.r * 5)) + ci;
+      s += '<path d="' + blobPath(c.x, cy, c.r, seed) +
            '" fill="' + col(c.h.cls, c.h.tier) + '" stroke="var(--plate)" stroke-width="2"/>';
-      s += canopyRings(c.x, cy, c.r, c.h.cls, c.h.tier);
+      s += canopyRings(c.x, cy, c.r * 0.92, c.h.cls, c.h.tier);
     });
 
     s += '<text x="0" y="' + (baseY + 24) + '" text-anchor="middle" ' +
@@ -316,19 +340,18 @@
     return s;
   }
 
-  /* the house: Real Estate tier 4, because that is what a single property is */
+  /* the house stays an outline, in its magenta — as drawn */
   function houseSVG(cx, baseY){
-    var w = 74, h = 58, roof = 30;
-    var x = -w / 2, y = baseY - h;
-    var d = "M" + x + "," + baseY + " V" + y + " L0," + (y - roof) + " L" + (x + w) + "," + y +
-            " V" + baseY + " Z";
-    var door = "M-9," + baseY + " V" + (baseY - 24) + " H9 V" + baseY + " Z";
-    return '<g transform="translate(' + cx + ',0)">' +
-             '<path d="' + d + '" fill="' + col("realestate", 4) + '"/>' +
-             '<path d="' + door + '" fill="var(--plate)" opacity=".9"/>' +
-             '<text x="0" y="' + (baseY + 24) + '" text-anchor="middle" ' +
-               'font-family="var(--mono)" font-size="11" fill="var(--muted)">Home</text>' +
-           '</g>';
+    var w = 74, h = 58, roof = 32, x = -w / 2, y = baseY - h;
+    var body = "M" + (x - 7) + "," + (y + 4) + " L0," + (y - roof) + " L" + (-x + 7) + "," + (y + 4) +
+               "M" + x + "," + baseY + " V" + y + "M" + (-x) + "," + baseY + " V" + y;
+    var door = "M-9," + baseY + " V" + (baseY - 26) + " H9 V" + baseY;
+    return '<g transform="translate(' + cx + ',0)" fill="none" stroke="#9E2287" ' +
+             'stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' +
+             '<path d="' + body + '"/><path d="' + door + '" stroke-width="2.4"/>' +
+           '</g>' +
+           '<text x="' + cx + '" y="' + (baseY + 24) + '" text-anchor="middle" ' +
+             'font-family="var(--mono)" font-size="11" fill="var(--muted)">Home</text>';
   }
 
   function scaleKey(x, cy0){
@@ -362,7 +385,6 @@
 
     s += houseSVG(150, baseY);
     TREES.forEach(function(t, i){ s += treeSVG(t, baseY, xs[i]); });
-    s += scaleKey(52, 128);
     s += '</svg>';
     return s;
   }
@@ -418,8 +440,8 @@
       p: "The fork was a fixed stub, so canopies floated clear of it and the tree read as two unrelated objects stacked. The fork is now derived from canopy radius and the mass sits on the apex." },
     { t: "Overlaps read as depth",
       p: "Circles piled into muddled shapes that looked like asset classes which do not exist. A 2 px stroke in the plate colour separates them, and packing holds a fixed 6 % overlap instead of whatever landed." },
-    { t: "Tiers do the work",
-      p: "Everything was at full strength, so six hues fought and the risk ramp went unused. The bulk drops to tiers 1 and 2 and the dark tiers mark genuinely riskier positions." },
+    { t: "Colour at full voice",
+      p: "The palette runs bright, as yours did. The risk tiers stay in reserve for analytical work; the hero never goes grey to prove a point." },
     { t: "Area, not diameter",
       p: "If circles scale by diameter, a holding twice the size looks four times as large. In a wealth chart that is a misreading, not a style choice. Area is now proportional to value, with a key on the plate." }
   ];
