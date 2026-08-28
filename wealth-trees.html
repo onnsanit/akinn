@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Akinn's signature wealth-tree diagram, tuned: house asset-class palette with risk tiers, area-true sizing, seated canopies, and a Signature ornament mode.">
+<meta name="description" content="Akinn's signature wealth-tree diagram, tuned: house asset-class palette with risk tiers, area-true sizing, seated canopies, and a Signature growth-ring mode.">
 <title>Akinn Wealth Trees</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -133,7 +133,7 @@
     <div class="toolbar">
       <button class="link" id="modeflat" aria-pressed="true">Analytical</button>
       <button class="link" id="modepat" aria-pressed="false">Signature</button>
-      <span class="hint">Analytical ships in reports; Signature carries the kinship ornament inside each canopy for covers and brand.</span>
+      <span class="hint">Analytical ships in reports; Signature adds growth rings inside each canopy &mdash; a tree cross-section &mdash; for covers and brand.</span>
     </div>
   </section>
 
@@ -225,45 +225,23 @@
     ]}
   ];
 
-  /* one ornament dialect per asset class, from the surface pattern work.
-     Signature mode only: inside each canopy, lines in a darker tier of the
-     same hue, so class stays legible and the ornament reads as texture. */
-  var TP = 18;
-  function tileD(kind){
-    var P = TP, h = P/2, r = P*0.62;
-    switch(kind){
-      case "rings":  return "M"+h+","+h+"m-"+r+",0a"+r+","+r+" 0 1,0 "+(2*r)+",0a"+r+","+r+" 0 1,0 -"+(2*r)+",0";
-      case "scales": return "M0,"+P+"A"+h+","+h+" 0 0,1 "+P+","+P+"M-"+h+","+h+"A"+h+","+h+" 0 0,1 "+h+","+h+"M"+h+","+h+"A"+h+","+h+" 0 0,1 "+(P*1.5)+","+h;
-      case "fret":   return "M0,"+P+"H"+(P*0.25)+"V"+(P*0.25)+"H"+(P*0.75)+"V"+P+"H"+P;
-      case "diag":   return "M0,0L"+P+","+P+"M"+P+",0L0,"+P;
-      case "grid":   return "M0,0H"+P+"M0,0V"+P;
-      case "chev":   return "M0,"+P+"L"+h+",0L"+P+","+P;
-      case "dots":   return "M"+h+","+h+"m-2.1,0a2.1,2.1 0 1,0 4.2,0a2.1,2.1 0 1,0 -4.2,0";
-      case "ogee":   return "M0,0C"+h+","+(P/3)+" "+h+","+(P*2/3)+" "+P+","+P+"M"+P+",0C"+h+","+(P/3)+" "+h+","+(P*2/3)+" 0,"+P;
-    }
-  }
-  var DIALECT = {
-    equity:"chev", fixed:"grid", gold:"dots", commodity:"diag",
-    insurance:"ogee", realestate:"fret", ownership:"scales", portfolio:"rings"
-  };
+  /* Signature mode: concentric growth rings inside each canopy circle --
+     a tree cross-section, time made visible. Rings sit in a darker tier of
+     the same hue so class identity never changes. */
   var PATTERNED = false;
-  var patUID = 0;
 
-  function canopyFill(cls, tier, defs){
-    var base = col(cls, tier);
-    if (!PATTERNED) return { fill: base, extra: "" };
+  function canopyRings(cx, cy, r, cls, tier){
+    if (!PATTERNED || r < 15) return "";   /* small satellites stay flat */
     var ramp = RAMPS[cls].c;
-    var lineTier = Math.min(ramp.length, tier + 2);
-    var line = ramp[lineTier - 1];
-    if (line === base && ramp.length > 1) line = ramp[Math.max(0, lineTier - 2)];
-    var id = "wp" + (patUID++);
-    var mode = DIALECT[cls] === "dots" ? 'fill="'+line+'" stroke="none"'
-                                       : 'fill="none" stroke="'+line+'" stroke-width="1.1"';
-    defs.push('<pattern id="'+id+'" width="'+TP+'" height="'+TP+'" patternUnits="userSpaceOnUse">'+
-                '<rect width="'+TP+'" height="'+TP+'" fill="'+base+'"/>'+
-                '<g '+mode+' opacity=".5"><path d="'+tileD(DIALECT[cls])+'"/></g>'+
-              '</pattern>');
-    return { fill: "url(#"+id+")", extra: "" };
+    var line = ramp[Math.min(ramp.length, tier + 2) - 1];
+    if (line === ramp[Math.min(tier, ramp.length) - 1] && ramp.length > 1)
+      line = ramp[ramp.length - 1];
+    var s = "", step = Math.max(5.5, r / 4.2);
+    for (var rr = step; rr < r - 1.5; rr += step){
+      s += '<circle cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + rr.toFixed(1) +
+           '" fill="none" stroke="' + line + '" stroke-width="1.1" opacity=".38"/>';
+    }
+    return s;
   }
 
   var K = 3.05;                       /* area-proportional: r = K * sqrt(value) */
@@ -301,8 +279,7 @@
     return out;
   }
 
-  function treeSVG(tree, baseY, cx, defs){
-    defs = defs || [];
+  function treeSVG(tree, baseY, cx){
     var canopy = packCanopy(tree.holdings);
     var minY = Infinity, maxR = 0;
     canopy.forEach(function(c){ minY = Math.min(minY, c.y - c.r); maxR = Math.max(maxR, c.r); });
@@ -327,9 +304,10 @@
 
     /* largest first so smaller discs read as sitting in front */
     canopy.forEach(function(c){
-      var f = canopyFill(c.h.cls, c.h.tier, defs);
-      s += '<circle cx="' + c.x.toFixed(1) + '" cy="' + (c.y + shift).toFixed(1) + '" r="' + c.r.toFixed(1) +
-           '" fill="' + f.fill + '" stroke="var(--plate)" stroke-width="2"/>';
+      var cy = c.y + shift;
+      s += '<circle cx="' + c.x.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + c.r.toFixed(1) +
+           '" fill="' + col(c.h.cls, c.h.tier) + '" stroke="var(--plate)" stroke-width="2"/>';
+      s += canopyRings(c.x, cy, c.r, c.h.cls, c.h.tier);
     });
 
     s += '<text x="0" y="' + (baseY + 24) + '" text-anchor="middle" ' +
@@ -370,7 +348,7 @@
   }
 
   function mainChart(){
-    var W = 1180, H = 470, baseY = 392, defs = [];
+    var W = 1180, H = 470, baseY = 392;
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" ' +
             'aria-label="Household wealth across five periods, drawn as trees whose canopies are asset classes sized by value">';
 
@@ -383,9 +361,9 @@
     s += '<path d="M150,' + baseY + ' v7" stroke="var(--axis)" stroke-width="1.2"/>';
 
     s += houseSVG(150, baseY);
-    TREES.forEach(function(t, i){ s += treeSVG(t, baseY, xs[i], defs); });
+    TREES.forEach(function(t, i){ s += treeSVG(t, baseY, xs[i]); });
     s += scaleKey(52, 128);
-    s += '<defs>' + defs.join("") + '</defs></svg>';
+    s += '</svg>';
     return s;
   }
 
