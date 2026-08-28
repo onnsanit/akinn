@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Brand entry concept for akinn: a generative kinship pattern, two discs of ornament resolving into one silhouette.">
+<title>Akinn Kinship Entry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap">
+
+<style>
+  :root{
+    --paper:#E9EAE4;
+    --plate:#F5F6F1;
+    --ink:#161814;
+    --muted:#6C7167;
+    --rule:#CDD0C6;
+    --kin-edge:#B4B9AC;
+    --kin-blend:multiply;
+    --seed-ink:var(--seed-lo, #6C7167);
+
+    --step--1:.795rem;
+    --step-0:1rem;
+    --step-1:1.2rem;
+    --step-2:1.55rem;
+    --step-3:2.1rem;
+    --step-4:3.1rem;
+
+    --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0F110E;
+      --plate:#1E221A;
+      --ink:#E7E9E1;
+      --muted:#878D80;
+      --rule:#2A2E26;
+      --kin-edge:#454B3E;
+      --kin-blend:screen;
+      --seed-ink:var(--seed-hi, #878D80);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0F110E;
+    --plate:#1E221A;
+    --ink:#E7E9E1;
+    --muted:#878D80;
+    --rule:#2A2E26;
+    --kin-edge:#454B3E;
+    --kin-blend:screen;
+    --seed-ink:var(--seed-hi, #878D80);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:var(--step-0);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+
+  /* ---------- entry ---------- */
+
+  .entry{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    padding:clamp(2rem,5vh,4rem) 0 clamp(1.5rem,4vh,3rem);
+    text-align:center;
+  }
+
+  .stage{width:100%;display:flex;justify-content:center}
+  .stage svg{width:min(92vw,820px);height:auto;max-height:52svh}
+
+  .thread{
+    width:1px;
+    background:var(--rule);
+    height:clamp(28px,5vh,52px);
+    transform-origin:top;
+    animation:thread .5s cubic-bezier(.4,0,.2,1) both;
+    animation-delay:1s;
+  }
+  @keyframes thread{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+  .wordmark{
+    font-family:var(--display);
+    font-variation-settings:"opsz" 144,"SOFT" 60,"WONK" 1;
+    font-weight:300;
+    font-size:clamp(2.6rem,8vw,4.4rem);
+    letter-spacing:.02em;
+    line-height:1;
+    margin:.5rem 0 0;
+  }
+
+  .lede{
+    font-size:var(--step-0);
+    color:var(--muted);
+    max-width:42ch;
+    margin:.85rem auto 0;
+    text-wrap:balance;
+  }
+
+  .controls{
+    margin-top:clamp(1.5rem,3.5vh,2.5rem);
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem 1.4rem;
+  }
+
+  button.link,a.link{
+    appearance:none;
+    background:none;
+    border:0;
+    padding:.35rem .1rem;
+    font:inherit;
+    font-size:var(--step--1);
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--ink);
+    cursor:pointer;
+    text-decoration:none;
+    border-bottom:1px solid var(--rule);
+    transition:border-color .18s,color .18s;
+  }
+  button.link:hover,a.link:hover{border-bottom-color:var(--seed-ink);color:var(--seed-ink)}
+  :focus-visible{outline:2px solid var(--seed-ink);outline-offset:3px;border-radius:2px}
+
+  .seed{
+    font-family:var(--mono);
+    font-size:var(--step--1);
+    color:var(--seed-ink);
+    letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- specimen sheet ---------- */
+
+  .sheet{
+    border-top:1px solid var(--rule);
+    padding:clamp(3.5rem,9vh,6.5rem) 0;
+  }
+
+  .eyebrow{
+    font-size:var(--step--1);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 2.5rem;
+  }
+
+  .cols{
+    display:grid;
+    grid-template-columns:minmax(0,20rem) minmax(0,1fr);
+    gap:clamp(2rem,5vw,4.5rem);
+    align-items:start;
+  }
+  @media (max-width:820px){.cols{grid-template-columns:1fr}}
+
+  .notes{display:flex;flex-direction:column;gap:2rem;margin:0}
+  .notes h3{
+    font-family:var(--display);
+    font-variation-settings:"opsz" 40,"SOFT" 40,"WONK" 0;
+    font-weight:400;
+    font-size:var(--step-1);
+    margin:0 0 .4rem;
+    line-height:1.25;
+  }
+  .notes p{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.65;max-width:38ch}
+  .notes code{font-family:var(--mono);font-size:.92em;color:var(--ink)}
+
+  .reduction{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    gap:clamp(1.5rem,4vw,3rem);
+    padding-bottom:2.75rem;
+    margin-bottom:2.75rem;
+    border-bottom:1px solid var(--rule);
+  }
+  .red-item{display:flex;flex-direction:column;gap:.7rem}
+  .red-item svg{display:block;height:auto}
+  .red-label{font-size:var(--step--1);color:var(--muted);line-height:1.4}
+  .red-label b{display:block;color:var(--ink);font-weight:600;letter-spacing:.02em}
+
+  .family{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:1.5rem 1.25rem;
+  }
+  .chip{
+    appearance:none;
+    background:none;
+    border:0;
+    padding:0;
+    font:inherit;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:.55rem;
+    text-align:left;
+  }
+  .chip svg{display:block;width:100%;height:auto}
+  .chip span{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.05em;
+    color:var(--muted);
+    transition:color .18s;
+  }
+  .chip:hover span{color:var(--ink)}
+
+  /* ---------- credit ---------- */
+
+  .credit{
+    border-top:1px solid var(--rule);
+    padding:clamp(2.5rem,6vh,4rem) 0 clamp(3.5rem,8vh,5rem);
+  }
+  .credit p{
+    margin:0 0 1rem;
+    color:var(--muted);
+    font-size:var(--step--1);
+    line-height:1.7;
+    max-width:62ch;
+  }
+  .credit a{color:var(--ink);text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--rule)}
+  .credit a:hover{text-decoration-color:var(--seed-ink)}
+  .credit em{font-style:italic}
+
+  /* ---------- pattern internals ---------- */
+
+  svg.kin{isolation:isolate;display:block}
+  .kin .ring{transform-box:view-box}
+  .kin.animate .ring{animation:kinring .62s cubic-bezier(.33,1,.68,1) both}
+  .kin.animate .kin-lens,.kin.animate .kin-outline{animation:kinfade .7s ease both}
+  @keyframes kinring{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
+  @keyframes kinfade{from{opacity:0}to{opacity:1}}
+
+  @media (prefers-reduced-motion:reduce){
+    .kin.animate .ring,.kin.animate .kin-lens,.kin.animate .kin-outline,.thread{
+      animation:none!important;opacity:1!important;transform:none!important;
+    }
+  }
+</style>
+</head>
+<body>
+<main>
+  <section class="entry">
+    <div class="stage" id="stage"></div>
+    <div class="thread"></div>
+    <h1 class="wordmark">akinn</h1>
+    <p class="lede">Two patterns that never met, holding one shape.</p>
+    <div class="controls">
+      <button class="link" id="reseed">Another</button>
+      <span class="seed" id="seedlabel">&mdash;</span>
+      <a class="link" href="#system">Enter</a>
+    </div>
+  </section>
+
+  <section class="sheet" id="system">
+    <div class="wrap">
+      <p class="eyebrow">The system</p>
+      <div class="cols">
+        <div class="notes">
+          <div>
+            <h3>One piece, not two</h3>
+            <p>The mark is a single silhouette built from two circles. Where they overlap, both patterns stay visible and neither one wins. That overlap is the whole argument, and it is the only part of the mark you cannot pull back apart.</p>
+          </div>
+          <div>
+            <h3>The name is the argument</h3>
+            <p>Akin means related. Six colours come off one wheel and are dealt alternately to the two halves, and one band &mdash; the echo &mdash; is drawn with the same motif in the same colour on both sides. The kinship is structural, not a mood: you can point at it.</p>
+          </div>
+          <div>
+            <h3>Everyone gets a different one</h3>
+            <p>Each mark is generated from a six&#8209;character seed. No visitor gets the same pattern twice; every visitor gets the same family. Share the seed and you share the mark &mdash; <code>akinn.com/?seed=</code><code id="seedecho">&nbsp;</code>.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="reduction" id="reduction"></div>
+          <div class="family" id="family"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="credit">
+    <div class="wrap">
+      <p><b>On the reference.</b> The concept &mdash; ornament from traditions and centuries that could never have met, forced into one form until you notice they are related &mdash; is Nevin Alada&#287;'s, from her <em>Pattern Kinship</em> series. We saw it as <em>Pattern Kinship, Bubbles, ping-pong</em> (2022, acrylic on waterjet-cut aluminium) at the <a href="https://harn.emuseum.com/objects/25229/pattern-kinship-bubbles-pingpong">Harn Museum of Art</a>.</p>
+      <p><b>On what is ours.</b> Nothing here is traced. Every motif is drawn from scratch by the generator out of the shared grammar of ornament &mdash; chevron, rosette, lattice, meander, scallop, ogee, bar, dot &mdash; forms that recur independently across almost every decorative tradition, which is exactly why the kinship reading holds. The palette, the geometry and the reduction are ours. If this direction goes forward, credit the reference publicly and do not reproduce her colourways.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var TAU = Math.PI * 2;
+  var UID = 0;
+  var ALPH = "23456789abcdefghjkmnpqrstuvwxyz";
+
+  /* ---------- seeded randomness ---------- */
+
+  function hashSeed(str){
+    var h = 2166136261 >>> 0;
+    for (var i = 0; i < str.length; i++){
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function newSeed(){
+    var s = "";
+    for (var i = 0; i < 6; i++) s += ALPH[Math.floor(Math.random() * ALPH.length)];
+    return s;
+  }
+
+  /* ---------- polar helpers ---------- */
+
+  function pt(cx, cy, r, a){
+    return (cx + r * Math.cos(a)).toFixed(2) + "," + (cy + r * Math.sin(a)).toFixed(2);
+  }
+
+  function circ(x, y, r){
+    var rr = r.toFixed(2);
+    return "M" + (x - r).toFixed(2) + "," + y.toFixed(2) +
+           "a" + rr + "," + rr + " 0 1,0 " + (2 * r).toFixed(2) + ",0" +
+           "a" + rr + "," + rr + " 0 1,0 " + (-2 * r).toFixed(2) + ",0Z";
+  }
+
+  /* ---------- motif vocabulary ----------
+     Each motif draws one repeat unit inside an annular cell bounded by
+     radii r0..r1 and angles a0..a1. Originals, built from the geometric
+     primitives that recur across ornamental traditions worldwide.        */
+
+  var MOTIFS = [
+    { mode: "stroke", f: function(c){
+        var am = (c.a0 + c.a1) / 2, t = c.r1 - c.r0, d = "";
+        for (var k = 0; k < 2; k++){
+          var ra = c.r0 + t * (k * 0.44 + 0.05), rb = ra + t * 0.44;
+          d += "M" + pt(c.cx, c.cy, ra, c.a0) +
+               "L" + pt(c.cx, c.cy, rb, am) +
+               "L" + pt(c.cx, c.cy, ra, c.a1);
+        }
+        return d;
+      }},
+    { mode: "fill", f: function(c){
+        var am = (c.a0 + c.a1) / 2;
+        return c.i % 2
+          ? "M" + pt(c.cx, c.cy, c.r0, c.a0) + "L" + pt(c.cx, c.cy, c.r0, c.a1) + "L" + pt(c.cx, c.cy, c.r1, am) + "Z"
+          : "M" + pt(c.cx, c.cy, c.r1, c.a0) + "L" + pt(c.cx, c.cy, c.r1, c.a1) + "L" + pt(c.cx, c.cy, c.r0, am) + "Z";
+      }},
+    { mode: "fill", f: function(c){
+        var am = (c.a0 + c.a1) / 2, rm = (c.r0 + c.r1) / 2, t = c.r1 - c.r0;
+        var X = c.cx + rm * Math.cos(am), Y = c.cy + rm * Math.sin(am);
+        var d = circ(X, Y, t * 0.17);
+        for (var k = 0; k < 6; k++){
+          var aa = am + k * TAU / 6;
+          d += circ(X + Math.cos(aa) * t * 0.29, Y + Math.sin(aa) * t * 0.29, t * 0.13);
+        }
+        return d;
+      }},
+    { mode: "stroke", f: function(c){
+        return "M" + pt(c.cx, c.cy, c.r0, c.a0) + "L" + pt(c.cx, c.cy, c.r1, c.a1) +
+               "M" + pt(c.cx, c.cy, c.r0, c.a1) + "L" + pt(c.cx, c.cy, c.r1, c.a0);
+      }},
+    { mode: "stroke", f: function(c){
+        var am = (c.a0 + c.a1) / 2;
+        return "M" + pt(c.cx, c.cy, c.r0, c.a0) +
+               "L" + pt(c.cx, c.cy, c.r0, am) +
+               "L" + pt(c.cx, c.cy, c.r1, am) +
+               "L" + pt(c.cx, c.cy, c.r1, c.a1);
+      }},
+    { mode: "fill", f: function(c){
+        var am = (c.a0 + c.a1) / 2, ctrl = c.r0 + (c.r1 - c.r0) * 1.9;
+        return "M" + pt(c.cx, c.cy, c.r0, c.a0) +
+               "Q" + pt(c.cx, c.cy, ctrl, am) + " " + pt(c.cx, c.cy, c.r0, c.a1) + "Z";
+      }},
+    { mode: "fill", f: function(c){
+        var am = (c.a0 + c.a1) / 2, rm = (c.r0 + c.r1) / 2, t = c.r1 - c.r0;
+        return circ(c.cx + rm * Math.cos(am), c.cy + rm * Math.sin(am), t * 0.3);
+      }},
+    { mode: "fill", f: function(c){
+        var g = (c.a1 - c.a0) * 0.27;
+        return "M" + pt(c.cx, c.cy, c.r0, c.a0 + g) +
+               "L" + pt(c.cx, c.cy, c.r1, c.a0 + g) +
+               "L" + pt(c.cx, c.cy, c.r1, c.a1 - g) +
+               "L" + pt(c.cx, c.cy, c.r0, c.a1 - g) + "Z";
+      }},
+    { mode: "fill", f: function(c){
+        var am = (c.a0 + c.a1) / 2, rm = (c.r0 + c.r1) / 2;
+        return "M" + pt(c.cx, c.cy, c.r0, am) +
+               "Q" + pt(c.cx, c.cy, rm, c.a0) + " " + pt(c.cx, c.cy, c.r1, am) +
+               "Q" + pt(c.cx, c.cy, rm, c.a1) + " " + pt(c.cx, c.cy, c.r0, am) + "Z";
+      }}
+  ];
+
+  /* ---------- palette: one wheel, dealt alternately ---------- */
+
+  function makePalette(rnd){
+    var h0 = rnd() * 360, span = 120 + rnd() * 150, stops = [];
+    /* one stop is held back as a low-chroma ground note, the way real
+       ornament always keeps a colour in reserve for the negative space */
+    var ground = Math.floor(rnd() * 6);
+    for (var i = 0; i < 6; i++){
+      var h = (h0 + span * (i / 5) + (rnd() * 18 - 9) + 360) % 360;
+      var s, l;
+      if (i === ground){ s = 14 + rnd() * 14; l = 24 + rnd() * 10; }
+      else { s = 44 + rnd() * 28; l = 36 + rnd() * 28; }
+      stops.push({ h: h, s: s, l: l, css: "hsl(" + h.toFixed(1) + " " + s.toFixed(0) + "% " + l.toFixed(0) + "%)" });
+    }
+    return {
+      stops: stops,
+      ground: ground,
+      A: [stops[0].css, stops[2].css, stops[4].css],
+      B: [stops[1].css, stops[3].css, stops[5].css]
+    };
+  }
+
+  /* ---------- one disc: concentric bands of motif ---------- */
+
+  function discBands(rnd, cx, cy, R, pal, nRings, echo){
+    var bands = [], r = R;
+    for (var i = 0; i < nRings; i++){
+      var r0 = r - R * (0.10 + rnd() * 0.09);
+      if (r0 < R * 0.16) break;
+      bands.push([r0, r]);
+      r = r0 - R * 0.012;
+    }
+
+    var rings = bands.map(function(b, idx){
+      var r0 = b[0], r1 = b[1];
+      /* the echo band: both discs carry this one motif in this one colour.
+         Whatever else differs, they demonstrably share a trait. */
+      var shared = echo && idx === echo.idx;
+      var pick = MOTIFS[Math.floor(rnd() * MOTIFS.length)];
+      var m = shared ? MOTIFS[echo.motif] : pick;
+      var rm = (r0 + r1) / 2, t = r1 - r0;
+      var reps = Math.round(TAU * rm / (t * (0.75 + rnd() * 0.95)));
+      reps = Math.max(6, Math.min(64, reps));
+      var step = TAU / reps, d = "";
+      for (var i = 0; i < reps; i++){
+        d += m.f({ cx: cx, cy: cy, r0: r0, r1: r1, a0: i * step, a1: (i + 1) * step, i: i });
+      }
+      return { d: d, mode: m.mode, color: shared ? echo.color : pal[idx % pal.length], sw: t * 0.17 };
+    });
+
+    return { rings: rings, inner: r };
+  }
+
+  function medallion(cx, cy, rc, own, other){
+    return '<path d="' + circ(cx, cy, rc) + '" fill="' + other[0] + '"/>' +
+           (function(){
+             var d = "";
+             for (var k = 0; k < 8; k++){
+               var a = k * TAU / 8;
+               d += circ(cx + Math.cos(a) * rc * 0.58, cy + Math.sin(a) * rc * 0.58, rc * 0.14);
+             }
+             return '<path d="' + d + '" fill="' + own[1] + '"/>';
+           })() +
+           '<path d="' + circ(cx, cy, rc * 0.28) + '" fill="' + own[2] + '"/>';
+  }
+
+  /* ---------- the union silhouette, sampled so the seam disappears ---------- */
+
+  function unionOutline(cx, cy, R, d){
+    var th = Math.atan2(Math.sqrt(R * R - d * d), d);
+    var ax = cx - d, bx = cx + d, out = [], i, a, N = 160;
+    for (i = 0; i <= N; i++){
+      a = th + (TAU - 2 * th) * (i / N);
+      out.push((ax + R * Math.cos(a)).toFixed(2) + "," + (cy + R * Math.sin(a)).toFixed(2));
+    }
+    for (i = 0; i <= N; i++){
+      a = (th - Math.PI) + (2 * Math.PI - 2 * th) * (i / N);
+      out.push((bx + R * Math.cos(a)).toFixed(2) + "," + (cy + R * Math.sin(a)).toFixed(2));
+    }
+    return "M" + out.join("L") + "Z";
+  }
+
+  /* ---------- assemble ---------- */
+
+  function ringMarkup(rings, cx, cy, animate, offset){
+    return rings.map(function(g, i){
+      var paint = g.mode === "fill"
+        ? 'fill="' + g.color + '"'
+        : 'fill="none" stroke="' + g.color + '" stroke-width="' + g.sw.toFixed(2) +
+          '" stroke-linejoin="round" stroke-linecap="round"';
+      var style = 'transform-origin:' + cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px;';
+      if (animate) style += 'animation-delay:' + (offset + i * 2) * 55 + 'ms;';
+      return '<g class="ring" style="' + style + '"><path d="' + g.d + '" ' + paint + '/></g>';
+    }).join("");
+  }
+
+  function kinship(seed, opts){
+    opts = opts || {};
+    var nRings = opts.nRings || 8;
+    var animate = !!opts.animate;
+
+    var rnd = mulberry32(hashSeed(seed));
+    var R = 100, d = R * 0.567, pad = 10;
+    var W = 2 * (R + d) + pad * 2, H = 2 * R + pad * 2;
+    var cx = W / 2, cy = H / 2, ax = cx - d, bx = cx + d;
+    var uid = "kin" + (UID++);
+
+    var pal = makePalette(rnd);
+    var echo = {
+      idx: 1 + Math.floor(rnd() * 2),
+      motif: Math.floor(rnd() * MOTIFS.length),
+      color: pal.stops[(pal.ground + 3) % 6].css
+    };
+    var A = discBands(rnd, ax, cy, R, pal.A, nRings, echo);
+    var B = discBands(rnd, bx, cy, R, pal.B, nRings, echo);
+
+    var defs =
+      '<clipPath id="' + uid + 'a"><circle cx="' + ax + '" cy="' + cy + '" r="' + R + '"/></clipPath>' +
+      '<clipPath id="' + uid + 'b"><circle cx="' + bx + '" cy="' + cy + '" r="' + R + '"/></clipPath>';
+
+    var aInner = ringMarkup(A.rings, ax, cy, animate, 0) + medallion(ax, cy, A.inner, pal.A, pal.B);
+    var bInner = ringMarkup(B.rings, bx, cy, animate, 1) + medallion(bx, cy, B.inner, pal.B, pal.A);
+    var settle = (Math.max(A.rings.length, B.rings.length) * 2 + 1) * 55;
+
+    var body =
+      '<path d="' + unionOutline(cx, cy, R, d) + '" fill="var(--plate)"/>' +
+      '<g clip-path="url(#' + uid + 'a)">' + aInner + '</g>' +
+      '<g clip-path="url(#' + uid + 'b)">' + bInner + '</g>' +
+      '<g class="kin-lens" style="mix-blend-mode:var(--kin-blend);' +
+        (animate ? 'animation-delay:' + settle + 'ms;' : '') + '">' +
+        '<g clip-path="url(#' + uid + 'a)"><g clip-path="url(#' + uid + 'b)">' + aInner + '</g></g>' +
+      '</g>' +
+      '<path class="kin-outline" d="' + unionOutline(cx, cy, R, d) + '" fill="none" ' +
+        'stroke="var(--kin-edge)" stroke-width="1.6"' +
+        (animate ? ' style="animation-delay:' + settle + 'ms;"' : '') + '/>';
+
+    return '<svg class="kin' + (animate ? " animate" : "") + '" viewBox="0 0 ' +
+           W.toFixed(1) + " " + H.toFixed(1) + '" role="img" ' +
+           'aria-label="Kinship mark, seed ' + seed + '"><defs>' + defs + '</defs>' + body + '</svg>';
+  }
+
+  /* ---------- accent: taken from whatever pattern you were dealt ---------- */
+
+  function setAccent(seed){
+    var stops = makePalette(mulberry32(hashSeed(seed))).stops;
+    var s = stops[2];
+    var root = document.documentElement;
+    root.style.setProperty("--seed-lo", "hsl(" + s.h.toFixed(1) + " " + Math.min(80, s.s).toFixed(0) + "% 34%)");
+    root.style.setProperty("--seed-hi", "hsl(" + s.h.toFixed(1) + " " + Math.min(70, s.s).toFixed(0) + "% 72%)");
+  }
+
+  /* ---------- wiring ---------- */
+
+  var stage = document.getElementById("stage");
+  var seedLabel = document.getElementById("seedlabel");
+  var seedEcho = document.getElementById("seedecho");
+
+  function show(seed){
+    stage.innerHTML = kinship(seed, { nRings: 8, animate: true });
+    seedLabel.textContent = "#" + seed;
+    seedEcho.textContent = seed;
+    setAccent(seed);
+    try {
+      history.replaceState(null, "", "?seed=" + seed);
+    } catch (e) { /* sandboxed history — the seed is still on screen */ }
+  }
+
+  var params;
+  try { params = new URLSearchParams(location.search); } catch (e) { params = null; }
+  var initial = (params && params.get("seed")) || newSeed();
+  if (!/^[a-z0-9]{1,16}$/.test(initial)) initial = newSeed();
+  show(initial);
+
+  document.getElementById("reseed").addEventListener("click", function(){
+    show(newSeed());
+  });
+
+  /* reduction: the same seed at three levels of detail */
+  var REDUCTION = [
+    { n: 8, w: 210, t: "Full", s: "Entry screen, posters, packaging" },
+    { n: 5, w: 118, t: "Mark", s: "Navigation, business card" },
+    { n: 3, w: 58,  t: "Bug",  s: "Favicon, avatar, stamp" }
+  ];
+  document.getElementById("reduction").innerHTML = REDUCTION.map(function(r){
+    return '<div class="red-item">' +
+      '<div style="width:' + r.w + 'px">' + kinship(initial, { nRings: r.n }) + '</div>' +
+      '<div class="red-label"><b>' + r.t + '</b>' + r.s + '</div></div>';
+  }).join("");
+
+  /* family: eight siblings, click to adopt */
+  var family = document.getElementById("family");
+  var kin = [];
+  for (var i = 0; i < 8; i++) kin.push(newSeed());
+  family.innerHTML = kin.map(function(s){
+    return '<button class="chip" data-seed="' + s + '">' +
+      kinship(s, { nRings: 5 }) + '<span>#' + s + '</span></button>';
+  }).join("");
+
+  family.addEventListener("click", function(e){
+    var b = e.target.closest(".chip");
+    if (!b) return;
+    show(b.getAttribute("data-seed"));
+    document.querySelector(".entry").scrollIntoView({
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+    });
+  });
+})();
+</script>
+</body>
+</html>
