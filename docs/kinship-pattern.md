@@ -2,99 +2,118 @@
 
 ## The reference
 
-**Nevin Aladağ, *Pattern Kinship*** (ongoing series). We came to it through
-*Pattern Kinship, Bubbles, ping-pong* (2022, acrylic on waterjet-cut aluminium,
-175.3 × 215.9 cm) at the Harn Museum of Art —
+**Nevin Aladağ, *Pattern Kinship*** (ongoing series) —
 <https://harn.emuseum.com/objects/25229/pattern-kinship-bubbles-pingpong>
 
 The series takes ornament from traditions and centuries that **could never
-actually have met** — different geographies, different eras, motifs that in
-reality never shared a room — and forces them into one silhouette. Standing in
-front of it you stop reading "Ottoman" and "Bauhaus" and start seeing that the
-chevron in one is the chevron in the other. Aladağ has described this as work
-about hybridity and belonging, drawn from her own experience as an immigrant,
-and about undoing a predetermined gaze that sorts ornament into "oriental" and
+actually have met** and brings it into one silhouette. Standing in front of it
+you stop reading "Ottoman" and "Bauhaus" and start seeing that the chevron in
+one is the chevron in the other. Aladağ has described this as work about
+hybridity and belonging, drawn from her own experience as an immigrant, and
+about undoing a predetermined gaze that sorts ornament into "oriental" and
 "western".
-
-The Harn piece is specifically two circles that come together — *one piece, not
-two separate circles*.
 
 ## Why it fits akinn
 
-**Akin** means *related to; of the same kind*. The brand name is already a claim
-about relatedness, and this pattern is that claim rendered as a graphic. It is
-not a borrowed mood; it's the dictionary definition of the word on the door.
+**Akin** means *related to; of the same kind*. The name is already a claim about
+relatedness, and the pattern is that claim rendered as a graphic.
 
-The useful part for a brand is that kinship here is **demonstrated, not
-asserted**. Nothing says "we bring people together." You just look at the mark
-and see two things that are obviously different and just as obviously family.
+The useful property is that kinship here is **demonstrated, not asserted**.
+Nothing says "we bring people together." You look at the mark and see things
+that are obviously different and just as obviously family.
+
+---
+
+## The copyright question
+
+Not legal advice — get a lawyer's sign-off before this ships. But the shape of
+the analysis is unusually clear.
+
+### Not hers to own
+
+| | Why |
+| --- | --- |
+| **The concept** | "Combine ornament from traditions that never met into one form" is an *idea*. The idea/expression dichotomy means ideas aren't copyrightable, however good. |
+| **The source ornament** | Hexagonal net, quatrefoil, Greek key, mashrabiya lattice, seigaiha scales, girih stars — all centuries old, all public domain. She didn't invent them; she went and got them. So can we. |
+| **Style** | Not copyrightable. Work "in the same tradition" is legal. |
+| **Technique** | Waterjet cutting; tiling a region with a repeat. |
+
+### Hers
+
+**The specific composition** — that arrangement, those cells, those choices.
+Copy the arrangement and it's infringement.
+
+### The operating rule
+
+**Go to her sources, not her results.** Two designers drawing on the same
+public-domain ornament produce related-looking work without either copying the
+other. That is how ornament has always worked.
+
+### The one thing we deliberately gave up
+
+Her **sweeping black curves** — free-drawn, gestural, cutting across the discs
+independently of the geometry beneath them. That is her signature move, the
+thing that makes a piece read as *an Aladağ*, and it is the most expressive and
+least functional element, therefore the most protectable. We don't use it. Our
+cell boundaries come only from disc overlap: computed, not composed.
+
+---
 
 ## The system
 
-A mark is generated from a six-character seed. Two discs, each filled with
-concentric bands of ornament, overlapping into a single silhouette.
+A mark is generated from a six-character seed.
 
 | Rule | What it encodes |
 | --- | --- |
-| **One silhouette.** The union of the two circles is stroked as a single outline; the seam is never drawn. | One piece, not two. |
-| **In the overlap, both patterns stay visible.** The lens is composited with `multiply` (light) / `screen` (dark) so neither disc wins. | The overlap is the only part you can't pull back apart — it's the whole argument. |
-| **One colour wheel, dealt alternately.** Six stops are generated from a single hue arc; disc A takes stops 0/2/4, disc B takes 1/3/5. | The halves are siblings, not opposites. |
-| **The echo band.** One band index carries the same motif in the same colour on both discs. | A shared trait you can point at. |
-| **One stop is held back** as a low-chroma dark. | Ornament always keeps a colour in reserve for the ground; without it the mark reads as neon. |
+| **Overlap makes the cells.** Discs are packed until they form one connected silhouette. Every region exists *because* two discs met; no cell has a boundary of its own. | Structure as a consequence of relation, not a decoration applied to it. |
+| **Strict partition.** Disc *i* owns whatever no higher-indexed disc claims. Those regions tile the silhouette exactly — every point lands in one cell and only one, however deep the stack. Each is then split against the first disc below it that reaches in. | No gaps, no double-painting, arbitrary overlap depth. |
+| **Cut, not printed.** Every tiling is stroke and void; the ground shows through. | The mark behaves like pierced metal, not ink. It never blocks what's behind it. |
+| **Two scale registers.** A cell gets either a fine mesh or a bold motif, never a middle that averages into grey. | Density contrast is what makes the eye keep exploring. |
+| **One hot cell.** Six chalky colours per mark and exactly one saturated, placed by the seed. | Without it the mark goes polite; with two it goes loud. |
 
-### Motif vocabulary
+### Tiling vocabulary
 
-Nine primitives, drawn from scratch, each tiled around an annular band:
-chevron, triangle, rosette, lattice, meander/step, scallop, dot, radial bar,
-ogee. These are the forms that recur *independently* across almost every
-decorative tradition on earth — which is exactly why the kinship reading holds
-rather than being a costume.
+Ten seamless repeats, constructed from scratch. Each arose *independently* in
+several traditions — which is the whole argument: they were already kin before
+anyone arranged them.
+
+Square net · diagonal grid · circle net · quatrefoil · chevron · stepped fret ·
+scales · dot field · star lattice · ogee net
 
 ### Reduction
 
-| Level | Bands | Use |
-| --- | --- | --- |
-| Full | 8 | Entry screen, posters, packaging |
-| Mark | 5 | Navigation, business card |
-| Bug | 3 | Favicon, avatar, stamp |
+| Level | Discs | Coarsen | Use |
+| --- | --- | --- | --- |
+| Full | 10 | 1× | Entry screen, posters, packaging |
+| Mark | 6 | 1.7× | Navigation, business card |
+| Bug | 4 | 2.8× | Favicon, avatar, stamp |
 
-Same seed, same identity, three densities.
+Tile scale is coarsened as disc count drops, so the mark stays legible instead
+of dissolving into grey.
 
 ## As a website entry
 
 `index.html` is the working entry screen.
 
-- On load the bands stagger in from the outside, A and B interleaved so the two
-  discs braid together rather than appearing one after the other. The overlap
-  and the silhouette outline resolve last — the two halves become one piece in
-  front of you.
-- A hairline drops from the seam into the wordmark.
+- Cells fade in one at a time, the disc outlines land last — the silhouette
+  resolves in front of you.
 - **Every visitor gets a different mark. Every visitor gets the same family.**
-  The seed is shown and written to the URL, so a pattern is addressable and
-  shareable: `akinn.com/?seed=n4kp2r`.
-- *Another* reseeds. The specimen sheet below shows the reduction row and eight
-  siblings; clicking one adopts it.
-
-The generated accent colour is pulled from the current seed and drives the seed
-label, focus rings and hover states — so the interface chrome belongs to
-whichever pattern you were dealt.
-
-## Attribution, honestly
-
-The **concept** is Aladağ's and should be credited publicly if this direction
-ships. What is ours: every motif is generated from primitives rather than traced
-or sampled, the palette logic is ours, and the geometry, reduction and
-interaction are ours. Do not reproduce her specific colourways. If akinn ever
-wants to go further than homage — using her work in a campaign, say — that's a
-licensing conversation with the artist, not a design decision.
+  The seed is shown and written to the URL: `akinn.com/?seed=n4kp2r`.
+- *Another* reseeds. The specimen sheet shows the reduction row and eight
+  siblings; clicking one adopts it. A final section shows the ten source
+  tilings plainly, with where each comes from.
+- The accent colour driving seed label, focus rings and hover is pulled from
+  the current mark's hot cell.
 
 ## Open questions
 
-1. **What does akinn actually do?** The copy on the entry is deliberately thin
-   for that reason. Sector and audience will change the tagline and probably the
+1. **What does akinn actually do?** The copy is deliberately thin for that
+   reason. Sector and audience will change the tagline and probably the
    neutrals.
-2. **Should the seed persist per visitor** (stored, so you keep "your" mark) or
-   reroll every visit? Persisting makes it an identity; rerolling makes it a
-   welcome.
-3. **Print and favicon.** The bug holds at ~58px on screen; a true 16px favicon
-   likely wants a hand-tuned 2-band version rather than a generated one.
+2. **Persist the seed per visitor** (it becomes *your* mark — an identity) or
+   reroll every visit (a welcome)? Currently rerolls.
+3. **True favicon.** The bug holds at ~56px; 16px likely wants a hand-tuned
+   3-disc version rather than a generated one.
+4. **The other route.** Commissioning or licensing from the artist is available,
+   more respectful, and often cheaper than the legal comfort of going it alone.
+   Worth pricing before committing to homage.
