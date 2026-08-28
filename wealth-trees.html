@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Akinn wealth trees, charm first: big soft canopies at full colour, outline house, with area-true sizing running quietly underneath.">
+<meta name="description" content="Akinn wealth trees, charm first: clumped crowns at full colour, outline house, area-true sizing running quietly underneath.">
 <title>Akinn Wealth Trees</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,7 +153,7 @@
     <h2>Notes for the build</h2>
     <table>
       <tr><th>Size encoding</th><td>Circle <b>area</b> is proportional to value, never diameter. Diameter-scaling overstates large holdings by roughly the square &mdash; a real misreading risk in a wealth chart. The key on the plate gives the reader a reference.</td></tr>
-      <tr><th>Canopy packing</th><td>Largest holding sits on the stem axis; the rest attach outward with a fixed 6&nbsp;% overlap, so canopies look organic but never pile into unreadable knots.</td></tr>
+      <tr><th>Canopy packing</th><td>Largest holding anchors the crown; the rest press deep into it, so every canopy reads as one clumped mass &mdash; a tree, not a bunch of balloons.</td></tr>
       <tr><th>Separation</th><td>Every circle carries a 2&nbsp;px stroke in the plate colour. Overlaps then read as one disc in front of another rather than as a new colour that means nothing.</td></tr>
       <tr><th>The fork</th><td>Derived from canopy radius rather than fixed, at &plusmn;32&deg;, with the canopy resting on the apex. It now reads as carrying the mass.</td></tr>
       <tr><th>The house</th><td>Filled in Real&nbsp;Estate tier&nbsp;4 <code>#522A7C</code>, which is what your own rules say a single illiquid property is. It stops being an outline outlier and joins the system.</td></tr>
@@ -282,18 +282,17 @@
       for (var p = 0; p < out.length; p++){
         for (var a = 0; a < 36; a++){
           var ang = (a / 36) * Math.PI * 2 + p * 0.7;
-          var d = (out[p].r + r) * 0.94;          /* 6% overlap, always */
+          var d = (out[p].r + r) * (0.56 + a % 3 * 0.05);   /* deep overlap: one crown */
           var x = out[p].x + Math.cos(ang) * d;
           var y = out[p].y + Math.sin(ang) * d;
           var ok = true;
           for (var q = 0; q < out.length; q++){
             if (q === p) continue;
-            if (Math.hypot(x - out[q].x, y - out[q].y) < (out[q].r + r) * 0.9){ ok = false; break; }
+            if (Math.hypot(x - out[q].x, y - out[q].y) < Math.max(out[q].r, r) * 0.55){ ok = false; break; }
           }
           if (!ok) continue;
-          /* a round cluster, slightly wider than tall — never a string
-             in either direction */
-          var score = Math.hypot(x, y) * 0.8 + Math.abs(y) * 0.75 + Math.abs(x) * 0.12;
+          /* one clumped crown: pure compactness, a breath wider than tall */
+          var score = Math.hypot(x, y * 1.18);
           if (score < bestScore){ bestScore = score; best = { x: x, y: y, r: r, h: hs[i] }; }
         }
       }
