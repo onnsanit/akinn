@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Akinn's signature wealth-tree diagram, tuned: house asset-class palette with risk tiers, area-true sizing, seated canopies, and a Signature ornament mode.">
+<title>Akinn Wealth Trees</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bodoni+Moda:opsz,wght@6..96,400&display=swap">
+
+<style>
+  :root{
+    --paper:#F4F4F1; --ink:#18202A; --muted:#6B7481;
+    --rule:#D9DCDD; --card:#FBFBF9;
+    --plate:#ECEFF2; --stem:#1F3346; --axis:#B9C2CB;
+    --step--1:.8rem; --step-0:1rem; --step-1:1.2rem; --step-2:1.65rem;
+    --sans:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --serif:"Bodoni Moda",Didot,"Times New Roman",serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#101318; --ink:#E9ECEF; --muted:#8B939C;
+      --rule:#262B31; --card:#171B20;
+      --plate:#161B21; --stem:#C3CDD6; --axis:#39424B;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101318; --ink:#E9ECEF; --muted:#8B939C;
+    --rule:#262B31; --card:#171B20;
+    --plate:#161B21; --stem:#C3CDD6; --axis:#39424B;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:var(--step-0);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+
+  header{padding:clamp(3rem,8vh,5.5rem) 0 clamp(1.5rem,4vh,2.5rem)}
+  h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(2.1rem,5.5vw,3.3rem);line-height:1.05;
+    margin:0 0 .85rem;text-wrap:balance;letter-spacing:-.01em;
+  }
+  header p{margin:0;color:var(--muted);max-width:62ch}
+  .eyebrow{
+    font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 1.25rem;
+  }
+
+  section{padding:clamp(2.5rem,6vh,4rem) 0}
+  section + section{border-top:1px solid var(--rule)}
+  h2{font-family:var(--serif);font-weight:400;font-size:var(--step-2);margin:0 0 .5rem;line-height:1.2}
+  .sub{margin:0 0 2rem;color:var(--muted);max-width:66ch;font-size:var(--step--1)}
+
+  .plate{background:var(--plate);border:1px solid var(--rule);padding:1.5rem 1.25rem 1.25rem}
+  .plate svg{display:block;width:100%;height:auto}
+
+  .lockup{display:flex;flex-direction:column;align-items:center;gap:.1rem;margin-top:.5rem}
+  .lockup .wm{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2rem);line-height:1;letter-spacing:.005em}
+  .lockup .tag{
+    font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);margin-top:.5rem;
+  }
+
+  /* ---------- fixes ---------- */
+
+  .fixes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.75rem}
+  .fix .pair{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.85rem}
+  .fix .cell{background:var(--plate);border:1px solid var(--rule);position:relative}
+  .fix .cell svg{display:block;width:100%;height:auto}
+  .fix .cell i{
+    position:absolute;left:.45rem;top:.35rem;font-style:normal;
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .fix h3{font-family:var(--serif);font-weight:400;font-size:var(--step-1);margin:0 0 .35rem;line-height:1.25}
+  .fix p{margin:0;color:var(--muted);font-size:var(--step--1);line-height:1.6}
+
+  /* ---------- legend ---------- */
+
+  .legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.4rem 1.75rem}
+  .lg b{display:block;font-size:var(--step--1);margin-bottom:.1rem}
+  .lg em{font-style:normal;display:block;font-size:.7rem;color:var(--muted);margin-bottom:.5rem}
+  .ramp{display:flex;height:22px;border:1px solid var(--rule)}
+  .ramp span{flex:1}
+  .rampkey{display:flex;justify-content:space-between;font-size:.62rem;color:var(--muted);margin-top:.3rem;font-family:var(--mono)}
+
+  table{width:100%;border-collapse:collapse;font-size:var(--step--1)}
+  th,td{text-align:left;padding:.6rem .9rem .6rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th{font-weight:600;white-space:nowrap}
+  td{color:var(--muted)}
+  code{font-family:var(--mono);font-size:.92em;color:var(--ink)}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:center;margin-top:1.1rem}
+  button.link{
+    appearance:none;background:none;border:0;padding:.35rem .1rem;font:inherit;
+    font-size:var(--step--1);letter-spacing:.09em;text-transform:uppercase;
+    color:var(--muted);cursor:pointer;border-bottom:1px solid var(--rule);
+    transition:border-color .18s,color .18s;
+  }
+  button.link[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+  button.link:hover{color:var(--ink)}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+  .hint{font-size:var(--step--1);color:var(--muted)}
+
+  footer{border-top:1px solid var(--rule);padding:2.5rem 0 4rem;color:var(--muted);font-size:var(--step--1)}
+  footer p{margin:0 0 .8rem;max-width:66ch;line-height:1.7}
+  footer p:last-child{margin:0}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <header>
+    <p class="eyebrow">akinn &middot; wealth trees</p>
+    <h1>The same diagram, tuned</h1>
+    <p>The device is right and I would not change it: a stem, a canopy of asset-class circles, a timeline underneath. What follows keeps all of that and fixes the things that were costing it &mdash; three of which are accuracy problems rather than taste, because this is a data graphic and not an illustration.</p>
+  </header>
+
+  <section>
+    <div class="plate">
+      <div id="main"></div>
+      <div class="lockup">
+        <span class="wm">akinn</span>
+        <span class="tag">Wealth, seen whole</span>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="link" id="modeflat" aria-pressed="true">Analytical</button>
+      <button class="link" id="modepat" aria-pressed="false">Signature</button>
+      <span class="hint">Analytical ships in reports; Signature carries the kinship ornament inside each canopy for covers and brand.</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>What changed</h2>
+    <p class="sub">Left is the behaviour in your original, right is the revision. Same geometry, same palette family.</p>
+    <div class="fixes" id="fixes"></div>
+  </section>
+
+  <section>
+    <h2>The palette, used as designed</h2>
+    <p class="sub">Your system already carries hierarchy in its tiers &mdash; hue is the asset class, shade is risk, darker is riskier. The original spent every circle at full strength, which throws that away and makes six loud hues compete. Here the bulk sits in tiers&nbsp;1&ndash;2 and the darker tiers are reserved for positions that genuinely are riskier, so the picture is calmer <em>and</em> more truthful at the same time.</p>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section>
+    <h2>Notes for the build</h2>
+    <table>
+      <tr><th>Size encoding</th><td>Circle <b>area</b> is proportional to value, never diameter. Diameter-scaling overstates large holdings by roughly the square &mdash; a real misreading risk in a wealth chart. The key on the plate gives the reader a reference.</td></tr>
+      <tr><th>Canopy packing</th><td>Largest holding sits on the stem axis; the rest attach outward with a fixed 6&nbsp;% overlap, so canopies look organic but never pile into unreadable knots.</td></tr>
+      <tr><th>Separation</th><td>Every circle carries a 2&nbsp;px stroke in the plate colour. Overlaps then read as one disc in front of another rather than as a new colour that means nothing.</td></tr>
+      <tr><th>The fork</th><td>Derived from canopy radius rather than fixed, at &plusmn;32&deg;, with the canopy resting on the apex. It now reads as carrying the mass.</td></tr>
+      <tr><th>The house</th><td>Filled in Real&nbsp;Estate tier&nbsp;4 <code>#522A7C</code>, which is what your own rules say a single illiquid property is. It stops being an outline outlier and joins the system.</td></tr>
+      <tr><th>Dark theme</th><td>Every tier lifts one step lighter so tier&nbsp;4 stays visible on a dark plate. Hue still identifies the class and the relative ordering is preserved, so nothing about the encoding breaks.</td></tr>
+    </table>
+  </section>
+
+  <footer>
+    <p><b>The wordmark sits below</b>, centred, at roughly a third of the tallest canopy, with the descriptor locked underneath at a fixed tracking. Keep the gap between baseline and wordmark equal to one stem height &mdash; it is the only spacing rule this lockup needs.</p>
+    <p><b>Units are placeholders.</b> Swap the key and the axis for your own currency and periods. Values here are invented to exercise the layout across a plausible range.</p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- the house palette ---------- */
+  var RAMPS = {
+    equity:    { name: "Equity",           driver: "volatility / beta",        c: ["#A9DCB6","#5FB873","#2E8B47","#1B6E39"] },
+    fixed:     { name: "Fixed Income",     driver: "credit quality / seniority",c: ["#A6C8EC","#5E93D2","#2A5FA5","#123C74"] },
+    gold:      { name: "Gold",             driver: "single colour",            c: ["#F5CE3E"] },
+    commodity: { name: "Commodity",        driver: "concentration",            c: ["#D0B392","#B0854F","#7A5326","#5A3B1A"] },
+    insurance: { name: "Insurance",        driver: "concentration / pooling",  c: ["#F2A6C1","#DE5E8F","#C23B6E","#93264F"] },
+    realestate:{ name: "Real Estate",      driver: "liquidity",                c: ["#C9AEE6","#9B6BD1","#6E3CA5","#522A7C"] },
+    ownership: { name: "Ownership",        driver: "concentration / leverage", c: ["#F8C193","#F5923E","#D06716","#A04E10"] },
+    portfolio: { name: "Portfolio",        driver: "concentration across assets",c:["#9FD9CD","#4FB3A3","#2A8577","#1C665C"] }
+  };
+
+  function isDark(){
+    var t = document.documentElement.getAttribute("data-theme");
+    if (t === "dark") return true;
+    if (t === "light") return false;
+    return matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  /* on a dark plate every tier lifts one step so T4 stays visible */
+  function col(cls, tier){
+    var r = RAMPS[cls].c;
+    var t = Math.min(tier, r.length);
+    if (isDark() && r.length > 1) t = Math.max(1, t - 1);
+    return r[t - 1];
+  }
+
+  /* ---------- data: one household across five periods ---------- */
+  var TREES = [
+    { year: "2015", holdings: [
+      { cls: "fixed", tier: 1, v: 18 }, { cls: "equity", tier: 2, v: 12 }
+    ]},
+    { year: "2019", holdings: [
+      { cls: "equity", tier: 2, v: 42 }, { cls: "fixed", tier: 1, v: 24 },
+      { cls: "gold", tier: 1, v: 8 }
+    ]},
+    { year: "2023", holdings: [
+      { cls: "equity", tier: 2, v: 78 }, { cls: "ownership", tier: 4, v: 46 },
+      { cls: "fixed", tier: 1, v: 30 }, { cls: "gold", tier: 1, v: 11 }
+    ]},
+    { year: "2027", holdings: [
+      { cls: "portfolio", tier: 2, v: 104 }, { cls: "ownership", tier: 3, v: 58 },
+      { cls: "realestate", tier: 2, v: 40 }, { cls: "fixed", tier: 2, v: 26 },
+      { cls: "insurance", tier: 1, v: 15 }, { cls: "gold", tier: 1, v: 12 }
+    ]},
+    { year: "2031", holdings: [
+      { cls: "portfolio", tier: 1, v: 168 }, { cls: "realestate", tier: 2, v: 66 },
+      { cls: "ownership", tier: 2, v: 52 }, { cls: "fixed", tier: 1, v: 44 },
+      { cls: "insurance", tier: 1, v: 22 }, { cls: "gold", tier: 1, v: 14 },
+      { cls: "commodity", tier: 1, v: 12 }
+    ]}
+  ];
+
+  /* one ornament dialect per asset class, from the surface pattern work.
+     Signature mode only: inside each canopy, lines in a darker tier of the
+     same hue, so class stays legible and the ornament reads as texture. */
+  var TP = 18;
+  function tileD(kind){
+    var P = TP, h = P/2, r = P*0.62;
+    switch(kind){
+      case "rings":  return "M"+h+","+h+"m-"+r+",0a"+r+","+r+" 0 1,0 "+(2*r)+",0a"+r+","+r+" 0 1,0 -"+(2*r)+",0";
+      case "scales": return "M0,"+P+"A"+h+","+h+" 0 0,1 "+P+","+P+"M-"+h+","+h+"A"+h+","+h+" 0 0,1 "+h+","+h+"M"+h+","+h+"A"+h+","+h+" 0 0,1 "+(P*1.5)+","+h;
+      case "fret":   return "M0,"+P+"H"+(P*0.25)+"V"+(P*0.25)+"H"+(P*0.75)+"V"+P+"H"+P;
+      case "diag":   return "M0,0L"+P+","+P+"M"+P+",0L0,"+P;
+      case "grid":   return "M0,0H"+P+"M0,0V"+P;
+      case "chev":   return "M0,"+P+"L"+h+",0L"+P+","+P;
+      case "dots":   return "M"+h+","+h+"m-2.1,0a2.1,2.1 0 1,0 4.2,0a2.1,2.1 0 1,0 -4.2,0";
+      case "ogee":   return "M0,0C"+h+","+(P/3)+" "+h+","+(P*2/3)+" "+P+","+P+"M"+P+",0C"+h+","+(P/3)+" "+h+","+(P*2/3)+" 0,"+P;
+    }
+  }
+  var DIALECT = {
+    equity:"chev", fixed:"grid", gold:"dots", commodity:"diag",
+    insurance:"ogee", realestate:"fret", ownership:"scales", portfolio:"rings"
+  };
+  var PATTERNED = false;
+  var patUID = 0;
+
+  function canopyFill(cls, tier, defs){
+    var base = col(cls, tier);
+    if (!PATTERNED) return { fill: base, extra: "" };
+    var ramp = RAMPS[cls].c;
+    var lineTier = Math.min(ramp.length, tier + 2);
+    var line = ramp[lineTier - 1];
+    if (line === base && ramp.length > 1) line = ramp[Math.max(0, lineTier - 2)];
+    var id = "wp" + (patUID++);
+    var mode = DIALECT[cls] === "dots" ? 'fill="'+line+'" stroke="none"'
+                                       : 'fill="none" stroke="'+line+'" stroke-width="1.1"';
+    defs.push('<pattern id="'+id+'" width="'+TP+'" height="'+TP+'" patternUnits="userSpaceOnUse">'+
+                '<rect width="'+TP+'" height="'+TP+'" fill="'+base+'"/>'+
+                '<g '+mode+' opacity=".5"><path d="'+tileD(DIALECT[cls])+'"/></g>'+
+              '</pattern>');
+    return { fill: "url(#"+id+")", extra: "" };
+  }
+
+  var K = 3.05;                       /* area-proportional: r = K * sqrt(value) */
+  function radius(v){ return K * Math.sqrt(v); }
+
+  /* ---------- canopy packing ----------
+     Largest holding on the stem axis; the rest attach outward with a fixed
+     small overlap. Deterministic, so a given portfolio always draws the same. */
+  function packCanopy(holdings){
+    var hs = holdings.slice().sort(function(a, b){ return b.v - a.v; });
+    var out = [{ x: 0, y: 0, r: radius(hs[0].v), h: hs[0] }];
+
+    for (var i = 1; i < hs.length; i++){
+      var r = radius(hs[i].v), best = null, bestScore = Infinity;
+      for (var p = 0; p < out.length; p++){
+        for (var a = 0; a < 36; a++){
+          var ang = (a / 36) * Math.PI * 2 + p * 0.7;
+          var d = (out[p].r + r) * 0.94;          /* 6% overlap, always */
+          var x = out[p].x + Math.cos(ang) * d;
+          var y = out[p].y + Math.sin(ang) * d;
+          var ok = true;
+          for (var q = 0; q < out.length; q++){
+            if (q === p) continue;
+            if (Math.hypot(x - out[q].x, y - out[q].y) < (out[q].r + r) * 0.9){ ok = false; break; }
+          }
+          if (!ok) continue;
+          /* cluster round the crown: closeness to the largest disc, a mild
+             pull downward, and only a gentle centring so canopies spread */
+          var score = Math.hypot(x, y) + y * 0.45 + Math.abs(x) * 0.22;
+          if (score < bestScore){ bestScore = score; best = { x: x, y: y, r: r, h: hs[i] }; }
+        }
+      }
+      if (best) out.push(best);
+    }
+    return out;
+  }
+
+  function treeSVG(tree, baseY, cx, defs){
+    defs = defs || [];
+    var canopy = packCanopy(tree.holdings);
+    var minY = Infinity, maxR = 0;
+    canopy.forEach(function(c){ minY = Math.min(minY, c.y - c.r); maxR = Math.max(maxR, c.r); });
+    var lowest = -Infinity;
+    canopy.forEach(function(c){ lowest = Math.max(lowest, c.y + c.r); });
+
+    /* stem height scales gently with canopy so big trees stand taller */
+    var stemH = 96 + maxR * 0.34;
+    var forkTopY = baseY - stemH;
+    var shift = forkTopY - lowest + Math.max(12, maxR * 0.5);   /* rest the canopy on the fork */
+
+    /* fork derived from canopy radius, fixed angle */
+    var fl = Math.max(28, maxR * 0.72), ang = 32 * Math.PI / 180;
+    var fx = Math.sin(ang) * fl, fy = Math.cos(ang) * fl;
+
+    var s = '<g transform="translate(' + cx + ',0)">';
+    s += '<path d="M0,' + baseY + ' V' + forkTopY + '" stroke="var(--stem)" stroke-width="2.4" fill="none"/>';
+    s += '<path d="M0,' + (forkTopY + fy * 0.55) + ' L' + (-fx) + ',' + (forkTopY - fy * 0.45) + '" ' +
+         'stroke="var(--stem)" stroke-width="1.7" fill="none" stroke-linecap="round"/>';
+    s += '<path d="M0,' + (forkTopY + fy * 0.55) + ' L' + fx + ',' + (forkTopY - fy * 0.45) + '" ' +
+         'stroke="var(--stem)" stroke-width="1.7" fill="none" stroke-linecap="round"/>';
+
+    /* largest first so smaller discs read as sitting in front */
+    canopy.forEach(function(c){
+      var f = canopyFill(c.h.cls, c.h.tier, defs);
+      s += '<circle cx="' + c.x.toFixed(1) + '" cy="' + (c.y + shift).toFixed(1) + '" r="' + c.r.toFixed(1) +
+           '" fill="' + f.fill + '" stroke="var(--plate)" stroke-width="2"/>';
+    });
+
+    s += '<text x="0" y="' + (baseY + 24) + '" text-anchor="middle" ' +
+         'font-family="var(--mono)" font-size="11" fill="var(--muted)">' + tree.year + '</text>';
+    s += '</g>';
+    return s;
+  }
+
+  /* the house: Real Estate tier 4, because that is what a single property is */
+  function houseSVG(cx, baseY){
+    var w = 74, h = 58, roof = 30;
+    var x = -w / 2, y = baseY - h;
+    var d = "M" + x + "," + baseY + " V" + y + " L0," + (y - roof) + " L" + (x + w) + "," + y +
+            " V" + baseY + " Z";
+    var door = "M-9," + baseY + " V" + (baseY - 24) + " H9 V" + baseY + " Z";
+    return '<g transform="translate(' + cx + ',0)">' +
+             '<path d="' + d + '" fill="' + col("realestate", 4) + '"/>' +
+             '<path d="' + door + '" fill="var(--plate)" opacity=".9"/>' +
+             '<text x="0" y="' + (baseY + 24) + '" text-anchor="middle" ' +
+               'font-family="var(--mono)" font-size="11" fill="var(--muted)">Home</text>' +
+           '</g>';
+  }
+
+  function scaleKey(x, cy0){
+    var vals = [20, 100], s = "", cy = cy0;
+    s += '<text x="' + x + '" y="' + (cy0 - 62) + '" font-family="var(--mono)" font-size="10" ' +
+         'fill="var(--muted)" letter-spacing="1.4">AREA = VALUE</text>';
+    var ox = x;
+    vals.forEach(function(v){
+      var r = radius(v);
+      s += '<circle cx="' + (ox + r) + '" cy="' + (cy - r) + '" r="' + r.toFixed(1) +
+           '" fill="none" stroke="var(--axis)" stroke-width="1.4"/>';
+      s += '<text x="' + (ox + r) + '" y="' + (cy + 14) + '" text-anchor="middle" ' +
+           'font-family="var(--mono)" font-size="10" fill="var(--muted)">' + v + 'M</text>';
+      ox += r * 2 + 16;
+    });
+    return s;
+  }
+
+  function mainChart(){
+    var W = 1180, H = 470, baseY = 392, defs = [];
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" ' +
+            'aria-label="Household wealth across five periods, drawn as trees whose canopies are asset classes sized by value">';
+
+    s += '<path d="M40,' + baseY + ' H' + (W - 40) + '" stroke="var(--axis)" stroke-width="1.2" fill="none"/>';
+
+    var xs = [300, 470, 650, 850, 1075];
+    xs.forEach(function(x){
+      s += '<path d="M' + x + ',' + baseY + ' v7" stroke="var(--axis)" stroke-width="1.2"/>';
+    });
+    s += '<path d="M150,' + baseY + ' v7" stroke="var(--axis)" stroke-width="1.2"/>';
+
+    s += houseSVG(150, baseY);
+    TREES.forEach(function(t, i){ s += treeSVG(t, baseY, xs[i], defs); });
+    s += scaleKey(52, 128);
+    s += '<defs>' + defs.join("") + '</defs></svg>';
+    return s;
+  }
+
+  function drawMain(){ document.getElementById("main").innerHTML = mainChart(); }
+  drawMain();
+
+  var bFlat = document.getElementById("modeflat"), bPat = document.getElementById("modepat");
+  function setMode(pat){
+    PATTERNED = pat;
+    bFlat.setAttribute("aria-pressed", String(!pat));
+    bPat.setAttribute("aria-pressed", String(pat));
+    drawMain();
+  }
+  bFlat.addEventListener("click", function(){ setMode(false); });
+  bPat.addEventListener("click", function(){ setMode(true); });
+
+  /* ---------- before / after vignettes ---------- */
+
+  function vignette(mode){
+    var W = 250, H = 190, baseY = 160, cx = 125;
+    var hs = [
+      { cls: "equity", tier: mode === "before" ? 3 : 2, v: 62 },
+      { cls: "fixed",  tier: mode === "before" ? 3 : 1, v: 34 },
+      { cls: "portfolio", tier: mode === "before" ? 4 : 2, v: 26 },
+      { cls: "realestate", tier: mode === "before" ? 4 : 2, v: 18 }
+    ];
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">';
+    s += '<path d="M14,' + baseY + ' H' + (W - 14) + '" stroke="var(--axis)" stroke-width="1.1"/>';
+
+    if (mode === "before"){
+      /* fixed stub fork, canopy floating, arbitrary overlap, no separation */
+      var ft = baseY - 96;
+      s += '<g transform="translate(' + cx + ',0)">';
+      s += '<path d="M0,' + baseY + ' V' + ft + '" stroke="var(--stem)" stroke-width="2.4" fill="none"/>';
+      s += '<path d="M0,' + (ft + 12) + ' L-17,' + (ft - 6) + '" stroke="var(--stem)" stroke-width="1.7" fill="none"/>';
+      s += '<path d="M0,' + (ft + 12) + ' L17,' + (ft - 6) + '" stroke="var(--stem)" stroke-width="1.7" fill="none"/>';
+      var pos = [[-6,-52,24],[22,-40,17],[-26,-30,14],[8,-22,11]];
+      pos.forEach(function(p, i){
+        s += '<circle cx="' + p[0] + '" cy="' + (ft + p[1] - 18) + '" r="' + p[2] +
+             '" fill="' + col(hs[i].cls, hs[i].tier) + '"/>';
+      });
+      s += '</g>';
+    } else {
+      s += treeSVG({ year: "", holdings: hs }, baseY, cx);
+    }
+    s += '</svg>';
+    return s;
+  }
+
+  var FIXES = [
+    { t: "The canopy now rests",
+      p: "The fork was a fixed stub, so canopies floated clear of it and the tree read as two unrelated objects stacked. The fork is now derived from canopy radius and the mass sits on the apex." },
+    { t: "Overlaps read as depth",
+      p: "Circles piled into muddled shapes that looked like asset classes which do not exist. A 2 px stroke in the plate colour separates them, and packing holds a fixed 6 % overlap instead of whatever landed." },
+    { t: "Tiers do the work",
+      p: "Everything was at full strength, so six hues fought and the risk ramp went unused. The bulk drops to tiers 1 and 2 and the dark tiers mark genuinely riskier positions." },
+    { t: "Area, not diameter",
+      p: "If circles scale by diameter, a holding twice the size looks four times as large. In a wealth chart that is a misreading, not a style choice. Area is now proportional to value, with a key on the plate." }
+  ];
+
+  document.getElementById("fixes").innerHTML = FIXES.map(function(f, i){
+    var art = i < 2
+      ? '<div class="pair">' +
+          '<div class="cell"><i>Before</i>' + vignette("before") + '</div>' +
+          '<div class="cell"><i>After</i>' + vignette("after") + '</div>' +
+        '</div>'
+      : "";
+    return '<div class="fix">' + art + '<h3>' + f.t + '</h3><p>' + f.p + '</p></div>';
+  }).join("");
+
+  /* ---------- legend ---------- */
+  document.getElementById("legend").innerHTML = Object.keys(RAMPS).map(function(k){
+    var r = RAMPS[k];
+    var bars = r.c.map(function(c){ return '<span style="background:' + c + '"></span>'; }).join("");
+    var key = r.c.length > 1
+      ? '<div class="rampkey"><span>T1 lower</span><span>T4 higher</span></div>'
+      : '<div class="rampkey"><span>single colour</span><span></span></div>';
+    return '<div class="lg"><b>' + r.name + '</b><em>' + r.driver + '</em>' +
+           '<div class="ramp">' + bars + '</div>' + key + '</div>';
+  }).join("");
+})();
+</script>
+</body>
+</html>
